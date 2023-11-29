@@ -22,7 +22,8 @@ public class SportClassEntity extends BaseEntity {
     private String description;
 
     //may need to be changed to ManyToOne and making a List<SportClassEntity> sportClasses in the Instructor Class
-    @OneToOne(optional = false) //(optional = false, cascade = CascadeType.ALL)
+    //@OneToOne(optional = false) //(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     private InstructorEntity instructor;
 
     @Column(name = "max_capacity")
