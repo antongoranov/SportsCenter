@@ -35,4 +35,7 @@ public class InstructorEntity extends BaseEntity {
             targetEntity = SportClassEntity.class,
             cascade = CascadeType.ALL)
     private List<SportClassEntity> sportClasses;
+
+    @ManyToOne(optional = false)
+    private SportEntity sport;
 }

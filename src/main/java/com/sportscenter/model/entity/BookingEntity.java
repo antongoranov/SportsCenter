@@ -1,6 +1,6 @@
 package com.sportscenter.model.entity;
 
-import com.sportscenter.model.enums.StatusEnum;
+import com.sportscenter.model.enums.BookingStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +19,5 @@ public class BookingEntity extends BaseEntity {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private StatusEnum status;
+    private BookingStatusEnum status;
 }

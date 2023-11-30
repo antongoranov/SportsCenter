@@ -1,3 +1,10 @@
+logging:
+  level:
+    blog: WARN
+    org: WARN
+    org.hibernate.sql: DEBUG
+    org.hibernate.type.descriptor: TRACE
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -7,4 +14,14 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  sql:
+    init:
+      mode: always
+  charset:
+    console:

@@ -1,6 +1,6 @@
 package com.sportscenter.model.enums;
 
-public enum StatusEnum {
-    CANCELED,
+public enum BookingStatusEnum {
+    ACTIVE,
     EXPIRED
 }

@@ -15,13 +15,9 @@ import java.util.List;
 @Table(name = "sport_classes")
 public class SportClassEntity extends BaseEntity {
 
-    @Column
-    private String name;
+    @ManyToOne(optional = false)
+    private SportEntity sport;
 
-    @Column
-    private String description;
-
-    //may need to be changed to ManyToOne and making a List<SportClassEntity> sportClasses in the Instructor Class
     //@OneToOne(optional = false) //(optional = false, cascade = CascadeType.ALL)
     @ManyToOne(optional = false)
     private InstructorEntity instructor;
