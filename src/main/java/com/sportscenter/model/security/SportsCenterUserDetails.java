@@ -23,6 +23,11 @@ public class SportsCenterUserDetails implements UserDetails {
     private final String password;
     private final Collection<GrantedAuthority> authorities;
 
+
+    public String getFullName(){
+        return getFirstName() + " " + getLastName();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

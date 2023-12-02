@@ -80,6 +80,11 @@
 			<version>1.5.5.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -60,7 +60,7 @@
                 <a class="nav-link" href="/">Book a Sport Class</a>
             </li>
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Admin
@@ -72,10 +72,14 @@
                 </ul>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" sec:authorize="isAuthenticated()">
                 <div class="form-inline my-2 my-lg-0 border px-3">
-                    <!--            <div class="text-white" >Welcome, <th:block th:text="${#authentication.principal.fullName}">X</th:block>!</div>-->
-                    <form th:action="@{/users/logout}" th:method="post">
+
+                    <div class="text-white">Welcome, <th:block th:text="${#authentication.name}">X</th:block>!</div>
+
+                    <form
+                          th:action="@{/users/logout}"
+                          th:method="post">
                         <input class="btn btn-link nav-link" type="submit" value="Logout">
                     </form>
                 </div>
