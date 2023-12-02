@@ -32,3 +32,10 @@ VALUES (1, 1, 30, 0, 'MONDAY', '19:00:00', '20:00:00'),
        (2, 2, 20, 0, 'TUESDAY', '18:00:00', '19:00:00'),
        (3, 3, 20, 0, 'TUESDAY', '16:00:00', '17:00:00'),
        (1, 4, 20, 0, 'WEDNESDAY', '14:00:00', '15:00:00');
+
+INSERT INTO users(email, first_name, last_name, password, username, profile_picture_url)
+VALUES ('anton@anton.com', 'Anton', 'Goranov',
+        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov', 'admin.img');
+
+INSERT INTO users_roles(user_id, role_id)
+VALUES (1, 1);

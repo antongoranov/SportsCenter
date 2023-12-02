@@ -1,11 +1,12 @@
 package com.sportscenter.config;
 
 import com.sportscenter.repository.UserRepository;
-import com.sportscenter.service.SportsCenterUserDetailsService;
+import com.sportscenter.service.impl.SportsCenterUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,13 +32,15 @@ public class SecurityConfiguration {
                                 formLogin.loginPage("/users/login")
                                         .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                                         .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                                        .defaultSuccessUrl("/")
+                                        .defaultSuccessUrl("/", true)
                                         .failureForwardUrl("/users/login-error"))
                 .logout(
                         logout -> logout
                                 .logoutUrl("/users/logout")
                                 .logoutSuccessUrl("/")
-                                .invalidateHttpSession(true))
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID"))
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .build();
     }
 

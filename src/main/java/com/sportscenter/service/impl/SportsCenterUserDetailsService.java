@@ -1,4 +1,4 @@
-package com.sportscenter.service;
+package com.sportscenter.service.impl;
 
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
