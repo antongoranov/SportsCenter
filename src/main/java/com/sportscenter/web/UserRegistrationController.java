@@ -59,7 +59,7 @@ public class UserRegistrationController {
         UserRegistrationServiceModel userRegistrationServiceModel =
                 userMapper.userRegistrationBindingToUserRegistrationServiceModel(userRegistrationBindingModel);
 
-        userService.registerAndLogin(userRegistrationServiceModel);
+        userService.register(userRegistrationServiceModel);
 
         //pass a success flag to the model
         redirectAttributes.addFlashAttribute("registrationSuccess", true);

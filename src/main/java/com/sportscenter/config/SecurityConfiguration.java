@@ -24,14 +24,14 @@ public class SecurityConfiguration {
                         authorizeRequests ->
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers("/", "/users/login", "/users/register").permitAll()
+                                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .formLogin(
                         formLogin ->
                                 formLogin.loginPage("/users/login")
-                                        .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
-                                        .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
+                                        .usernameParameter("username")
+                                        .passwordParameter("password")
                                         .defaultSuccessUrl("/", true)
                                         .failureForwardUrl("/users/login-error"))
                 .logout(

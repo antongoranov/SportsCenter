@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserDetailsService appUserDetailsService;
 
     @Override
-    public void registerAndLogin(UserRegistrationServiceModel userRegistrationServiceModel) {
+    public void register(UserRegistrationServiceModel userRegistrationServiceModel) {
 
         UserRoleEntity userRole =
                 userRepository.count() == 0 ?
