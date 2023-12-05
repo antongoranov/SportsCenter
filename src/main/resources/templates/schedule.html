@@ -12,10 +12,10 @@
 </div>
 
 <div class="container">
-    <table class="table table-dark">
+    <table th:object="${sportClasses}" class="table table-dark">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">Time Slot</th>
             <th scope="col">Monday</th>
             <th scope="col">Tuesday</th>
             <th scope="col">Wednesday</th>
@@ -26,34 +26,107 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">10:00 - 11:00</th>
-            <td>SportClass 1 with Instructor</td>
-            <td>SportClass 2 with Instructor</td>
-            <td>SportClass 3 with Instructor</td>
-            <td>...</td>
+        <!--        TODO printing the hours works! -->
+        <tr th:each="timeSlot : ${#numbers.sequence(10, 20, 1)}">
+            <th scope="row" th:text=" ${timeSlot}+':'+'00 ' + ' - '+(${timeSlot}+1)+':'+'00' "></th>
+
+            <!-- //TODO            !!!WORKING!!!-->
+            <th:block th:each="dayOfWeek : ${#numbers.sequence(1, 7, 1)}">
+                <td>
+                    <th:block
+                            th:with="sportClass=${@sportClassServiceImpl.getMatchedSportClass(sportClasses, dayOfWeek, timeSlot)}">
+                        <th:block th:if="${sportClass}">
+                            <a class="card-link"
+                               th:href="@{/bookSportClass/{sportClassId}(sportClassId = ${sportClass.sportId})}">
+                                <span th:text="${sportClass.sportName}"></span><br/>
+                                <span th:text="${sportClass.instructorName}"></span>
+                            </a>
+                        </th:block>
+                        <span th:unless="${sportClass}">No Class</span>
+                    </th:block>
+                </td>
+            </th:block>
+            <!-- //TODO            !!!WORKING!!!-->
+
+            <!--           currently working on ***************   partially working with dummy data-->
+            <!--                        <th:block th:each="day : ${#numbers.sequence(1, 7, 1)}">-->
+
+            <!--            &lt;!&ndash;                wednesday from 10 AM  to 15 PM &ndash;&gt;-->
+            <!--            &lt;!&ndash;                            imitates the length of the sportClasses list &ndash;&gt;-->
+            <!--                            <th:block th:each="inside : ${#numbers.sequence(10,20,1)}">-->
+
+            <!--            &lt;!&ndash;                    prints only to the end of this loop - 15PM&ndash;&gt;-->
+            <!--                                <th:block th:if="${i == inside}">-->
+            <!--                                    <td th:if="${3 == day}"-->
+            <!--                                        th:text="'true'"></td>-->
+
+            <!--                                    <td th:unless="${3 == day}"-->
+            <!--                                        th:text="'false'"></td>-->
+            <!--                                </th:block>-->
+
+            <!--            &lt;!&ndash;                    <td  th:if="${i == inside and 3 == day}"&ndash;&gt;-->
+            <!--            &lt;!&ndash;                            th:text="'true'"></td>&ndash;&gt;-->
+
+            <!--                            </th:block>-->
+
+            <!--                        </th:block>-->
+            <!--           currently working on ***************-->
+
+
+
+            <!--            INITIAL IDEA - outside loop to go to 7 for the 7 days of the week-->
+            <!--            outer loop causing the problem - it iterates the inside loop on 1 row until the end of the outer loop
+                            and prints <td> elements outside loop * inside one-->
+            <!--            <th:block th:with="text = null" th:each="day : ${#numbers.sequence(1, 7, 1)}">-->
+
+            <!--                <th:block th:each="sportClass : ${sportClasses}">-->
+
+            <!--                    <td th:if="${i == sportClass.startHour} and ${sportClass.dayOfWeek.value == day} "-->
+            <!--                        th:text="${sportClass.sportName + ' with ' + sportClass.instructorName}"></td>-->
+            <!--                    <td th:unless="${i == sportClass.startHour} and ${sportClass.dayOfWeek.value == day}"-->
+            <!--                        th:text="'none'"></td>-->
+
+            <!--                </th:block>-->
+            <!--            </th:block>-->
+
+
+
         </tr>
-        <tr>
-            <th scope="row">12:00 - 13:00</th>
-            <td>SportClass 1 with Instructor</td>
-            <td>SportClass 2 with Instructor</td>
-            <td>SportClass 3 with Instructor</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <th scope="row">13:00 - 14:00</th>
-            <td>SportClass 1 with Instructor</td>
-            <td>SportClass 2 with Instructor</td>
-            <td>SportClass 3 with Instructor</td>
-            <td>...</td>
-        </tr>
-        <tr>
-            <th scope="row">14:00 - 15:00</th>
-            <td>SportClass 1 with Instructor</td>
-            <td>SportClass 2 with Instructor</td>
-            <td>SportClass 3 with Instructor</td>
-            <td>...</td>
-        </tr>
+
+
+        <!--        INITIAL EXAMPLE DATA-->
+        <!--        <tr th:each="sportClass : ${sportClasses}">-->
+        <!--            <th scope="row" th:text="${sportClass.startTime}"></th>-->
+        <!--            <td th:text="${sportClass.sportName + ' with ' + sportClass.instructorName}" ></td>-->
+        <!--        </tr>-->
+        <!--        <tr>-->
+        <!--            <th scope="row">10:00 - 11:00</th>-->
+        <!--            <td>SportClass 1 with Instructor</td>-->
+        <!--            <td>SportClass 2 with Instructor</td>-->
+        <!--            <td>SportClass 3 with Instructor</td>-->
+        <!--            <td>...</td>-->
+        <!--        </tr>-->
+        <!--        <tr>-->
+        <!--            <th scope="row">12:00 - 13:00</th>-->
+        <!--            <td>SportClass 1 with Instructor</td>-->
+        <!--            <td>SportClass 2 with Instructor</td>-->
+        <!--            <td>SportClass 3 with Instructor</td>-->
+        <!--            <td>...</td>-->
+        <!--        </tr>-->
+        <!--        <tr>-->
+        <!--            <th scope="row">13:00 - 14:00</th>-->
+        <!--            <td>SportClass 1 with Instructor</td>-->
+        <!--            <td>SportClass 2 with Instructor</td>-->
+        <!--            <td>SportClass 3 with Instructor</td>-->
+        <!--            <td>...</td>-->
+        <!--        </tr>-->
+        <!--        <tr>-->
+        <!--            <th scope="row">14:00 - 15:00</th>-->
+        <!--            <td>SportClass 1 with Instructor</td>-->
+        <!--            <td>SportClass 2 with Instructor</td>-->
+        <!--            <td>SportClass 3 with Instructor</td>-->
+        <!--            <td>...</td>-->
+        <!--        </tr>-->
         <!--    make it an href redirecting to the sport class page for booking-->
         <!--    todo for the remaining classes -->
         </tbody>

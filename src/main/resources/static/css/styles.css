@@ -16,6 +16,10 @@ footer{
     padding: 10px;
 }
 
+table {
+    empty-cells: show;
+}
+
 .navbar .logo {
     max-height: 50px;
     padding-right: 100px;

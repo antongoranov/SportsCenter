@@ -38,4 +38,8 @@ public class InstructorEntity extends BaseEntity {
 
     @ManyToOne(optional = false)
     private SportEntity sport;
+
+    public String getFullName(){
+        return getFirstName() + " " + getLastName();
+    }
 }

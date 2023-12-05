@@ -33,3 +33,4 @@ build/
 .vscode/
 
 entity-relations.txt
+TestRunnerClass.java
