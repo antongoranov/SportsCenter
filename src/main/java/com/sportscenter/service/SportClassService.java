@@ -1,5 +1,6 @@
 package com.sportscenter.service;
 
+import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 
 import java.time.DayOfWeek;
@@ -19,4 +20,5 @@ public interface SportClassService {
             int startHour);
 
 
+    SportClassBookingViewModel getSportClassById(Long sportClassId);
 }

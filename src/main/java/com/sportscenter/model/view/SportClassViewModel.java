@@ -10,7 +10,7 @@ import java.time.LocalTime;
 @Data
 public class SportClassViewModel {
 
-    private Long sportId;
+    private Long id;
     private String sportName;
     private String instructorName;
 

@@ -21,6 +21,9 @@ public class SportEntity extends BaseEntity{
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "sport_image_url")
+    private String sportImageUrl;
+
     @OneToMany(
             targetEntity = InstructorEntity.class,
             mappedBy = "sport")

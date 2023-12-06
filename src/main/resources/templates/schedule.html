@@ -12,7 +12,7 @@
 </div>
 
 <div class="container">
-    <table th:object="${sportClasses}" class="table table-dark">
+    <table th:object="${sportClasses}" class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">
         <thead>
         <tr>
             <th scope="col">Time Slot</th>
@@ -33,11 +33,10 @@
             <!-- //TODO            !!!WORKING!!!-->
             <th:block th:each="dayOfWeek : ${#numbers.sequence(1, 7, 1)}">
                 <td>
-                    <th:block
-                            th:with="sportClass=${@sportClassServiceImpl.getMatchedSportClass(sportClasses, dayOfWeek, timeSlot)}">
+                    <th:block th:with="sportClass=${@sportClassServiceImpl.getMatchedSportClass(sportClasses, dayOfWeek, timeSlot)}">
                         <th:block th:if="${sportClass}">
-                            <a class="card-link"
-                               th:href="@{/bookSportClass/{sportClassId}(sportClassId = ${sportClass.sportId})}">
+                            <a
+                               th:href="@{/bookSportClass/{sportClassId}(sportClassId = ${sportClass.id})}">
                                 <span th:text="${sportClass.sportName}"></span><br/>
                                 <span th:text="${sportClass.instructorName}"></span>
                             </a>

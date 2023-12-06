@@ -2,12 +2,15 @@ INSERT INTO roles(role)
 VALUES ('ADMIN'),
        ('USER');
 
-INSERT INTO sports(name, description)
-VALUES ('Crossfit', 'CrossFit is a high-intensity fitness program that combines elements of weightlifting, cardiovascular exercise, and gymnastics. Participants engage in constantly varied and functional movements, performed at a high intensity. Workouts often include a mix of exercises like weightlifting, running, rowing, and bodyweight movements, promoting overall fitness and strength.'),
+INSERT INTO sports(name, description, sport_image_url)
+VALUES ('Crossfit', 'CrossFit is a high-intensity fitness program that combines elements of weightlifting, cardiovascular exercise, and gymnastics. Participants engage in constantly varied and functional movements, performed at a high intensity. Workouts often include a mix of exercises like weightlifting, running, rowing, and bodyweight movements, promoting overall fitness and strength.',
+        'C:\\Users\\Anton\\Desktop\\Projects\\sportscenter\\sportscenter\\src\\main\\resources\\static\\images\\sports\\crossfit.jpg'),
 
-       ('Kangoo Jumps', 'Kangoo Jumps is a unique and energetic fitness class that involves wearing rebound shoes with springs. Participants perform various aerobic and dance movements while enjoying the benefits of reduced impact on joints due to the shock-absorbing technology in the shoes. It is a fun and effectives way to improve cardiovascular fitness, balance, and coordination.'),
+       ('Kangoo Jumps', 'Kangoo Jumps is a unique and energetic fitness class that involves wearing rebound shoes with springs. Participants perform various aerobic and dance movements while enjoying the benefits of reduced impact on joints due to the shock-absorbing technology in the shoes. It is a fun and effectives way to improve cardiovascular fitness, balance, and coordination.',
+        'C:\\Users\\Anton\\Desktop\\Projects\\sportscenter\\sportscenter\\src\\main\\resources\\static\\images\\sports\\kangoo.jpg'),
 
-       ('Tabata', 'Tabata training is a high-intensity interval training (HIIT) method characterized by short, intense bursts of exercise followed by brief periods of rest. Typically lasting four minutes, a Tabata workout consists of eight rounds of 20 seconds of intense exercise followed by 10 seconds of rest. This format, scientifically proven to boost cardiovascular fitness and metabolic rate, can involve various exercises, providing a quick yet effective workout.');
+       ('Tabata', 'Tabata training is a high-intensity interval training (HIIT) method characterized by short, intense bursts of exercise followed by brief periods of rest. Typically lasting four minutes, a Tabata workout consists of eight rounds of 20 seconds of intense exercise followed by 10 seconds of rest. This format, scientifically proven to boost cardiovascular fitness and metabolic rate, can involve various exercises, providing a quick yet effective workout.',
+        'C:\\Users\\Anton\\Desktop\\Projects\\sportscenter\\sportscenter\\src\\main\\resources\\static\\images\\sports\\tabata.jpg');
 
 INSERT INTO instructors(first_name, last_name, email, phone_number, picture_url, bio, sport_id)
 VALUES ('Ivan', 'Petrov', 'ivan.petrov@email.com', '+359876543210',

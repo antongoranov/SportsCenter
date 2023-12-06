@@ -1,6 +1,8 @@
 package com.sportscenter.service.impl;
 
+import com.sportscenter.exception.SportClassNotFoundException;
 import com.sportscenter.model.mapper.SportClassMapper;
+import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 import com.sportscenter.repository.SportClassRepository;
 import com.sportscenter.service.SportClassService;
@@ -47,6 +49,14 @@ public class SportClassServiceImpl implements SportClassService {
                         (sportClass.getDayOfWeek().getValue() == dayOfWeek && sportClass.getStartTime().getHour() == startHour))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public SportClassBookingViewModel getSportClassById(Long sportClassId) {
+
+        return sportClassRepository.findById(sportClassId)
+                .map(sportClassMapper::sportClassEntityToBookingViewModel)
+                .orElseThrow(() -> new SportClassNotFoundException("Sport class with " + sportClassId + " not found!"));
     }
 
 }
