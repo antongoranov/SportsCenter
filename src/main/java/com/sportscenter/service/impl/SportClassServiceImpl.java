@@ -1,6 +1,7 @@
 package com.sportscenter.service.impl;
 
 import com.sportscenter.exception.SportClassNotFoundException;
+import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.mapper.SportClassMapper;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
@@ -56,7 +57,22 @@ public class SportClassServiceImpl implements SportClassService {
 
         return sportClassRepository.findById(sportClassId)
                 .map(sportClassMapper::sportClassEntityToBookingViewModel)
+                //use LOGGER
                 .orElseThrow(() -> new SportClassNotFoundException("Sport class with " + sportClassId + " not found!"));
     }
 
+    @Override
+    public boolean hasAvailableSpots(SportClassEntity sportClass) {
+        return sportClass.getCurrentCapacity() + 1 <= sportClass.getMaxCapacity();
+    }
+
+    @Override
+    public void updateCapacity(SportClassEntity sportClass){
+        if (hasAvailableSpots(sportClass)) {
+            sportClass.setCurrentCapacity(sportClass.getCurrentCapacity() + 1);
+
+            //update
+            sportClassRepository.save(sportClass);
+        }
+    }
 }

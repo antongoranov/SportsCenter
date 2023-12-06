@@ -1,5 +1,6 @@
 package com.sportscenter.service;
 
+import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 
@@ -21,4 +22,8 @@ public interface SportClassService {
 
 
     SportClassBookingViewModel getSportClassById(Long sportClassId);
+
+    boolean hasAvailableSpots(SportClassEntity sportClass);
+
+    void updateCapacity(SportClassEntity sportClass);
 }

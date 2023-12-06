@@ -31,8 +31,8 @@ VALUES ('Ivan', 'Petrov', 'ivan.petrov@email.com', '+359876543210',
 
 
 INSERT INTO sport_classes(sport_id, instructor_id, max_capacity, current_capacity, day_of_week, start_time, end_time)
-VALUES (1, 1, 30, 0, 'MONDAY', '19:00:00', '20:00:00'),
-       (2, 2, 20, 0, 'TUESDAY', '18:00:00', '19:00:00'),
+VALUES (1, 1, 2, 1, 'MONDAY', '19:00:00', '20:00:00'),
+       (2, 2, 20, 1, 'TUESDAY', '18:00:00', '19:00:00'),
        (3, 3, 20, 0, 'TUESDAY', '16:00:00', '17:00:00'),
        (1, 4, 20, 0, 'WEDNESDAY', '14:00:00', '15:00:00');
 
@@ -51,6 +51,6 @@ VALUES (1, 1),
        (1, 2),
        (2, 2);
 
-INSERT INTO bookings(client_id, sport_class_id, status)
+INSERT INTO bookings(user_id, sport_class_id, status)
 VALUES (2, 1, 'ACTIVE'),
        (3, 2, 'ACTIVE');

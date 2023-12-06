@@ -17,9 +17,9 @@ public class SportClassBookingViewModel {
 //    private String sportImageUrl;
 //    private String sportDescription;
 
+    private Long id;
     private SportEntity sport;
     private String instructorName;
-
 
     private int maxCapacity;
     private int currentCapacity;

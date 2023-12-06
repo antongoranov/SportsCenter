@@ -2,9 +2,11 @@ package com.sportscenter.model.entity;
 
 import com.sportscenter.model.enums.BookingStatusEnum;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -12,7 +14,7 @@ import lombok.Setter;
 public class BookingEntity extends BaseEntity {
 
     @OneToOne(optional = false)
-    private UserEntity client;
+    private UserEntity user;
 
     @ManyToOne(optional = false)
     private SportClassEntity sportClass;

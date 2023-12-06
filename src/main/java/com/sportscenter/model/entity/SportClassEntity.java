@@ -2,13 +2,16 @@ package com.sportscenter.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -41,4 +44,12 @@ public class SportClassEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "sportClass", targetEntity = BookingEntity.class)
     private List<BookingEntity> bookings;
+
+    public String getSportClassInfo(){
+        return String.format("%s with %s - %s to %s",
+                this.sport.getName(),
+                this.instructor.getFullName(),
+                this.startTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                this.endTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+    }
 }
