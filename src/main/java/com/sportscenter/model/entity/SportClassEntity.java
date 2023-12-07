@@ -7,7 +7,9 @@ import lombok.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 
 @Builder
 @NoArgsConstructor
@@ -44,6 +46,10 @@ public class SportClassEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "sportClass", targetEntity = BookingEntity.class)
     private List<BookingEntity> bookings;
+
+    public String getDayOfWeekDisplayName(){
+        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
+    }
 
     public String getSportClassInfo(){
         return String.format("%s with %s - %s to %s",

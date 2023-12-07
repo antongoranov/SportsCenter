@@ -4,6 +4,8 @@ import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.enums.BookingStatusEnum;
+import com.sportscenter.model.mapper.BookingMapper;
+import com.sportscenter.model.view.BookingViewModel;
 import com.sportscenter.repository.BookingRepository;
 import com.sportscenter.repository.SportClassRepository;
 import com.sportscenter.repository.UserRepository;
@@ -13,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -21,6 +26,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final SportClassRepository sportClassRepository;
     private final SportClassService sportClassService;
+    private final BookingMapper bookingMapper;
 
     @Override
     public void bookASportClass(UserDetails userDetails, Long sportClassId) {
@@ -63,12 +69,24 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public boolean findActiveBookingsByUser(UserDetails userDetails) {
+    public boolean hasActiveBookings(UserDetails userDetails) {
 
         UserEntity user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow();
 
         return bookingRepository.findAllByUserAndStatus(user, BookingStatusEnum.ACTIVE)
                 .size() > 0;
+    }
+
+    @Override
+    public List<BookingViewModel> findBookingsByUser(UserDetails userDetails) {
+
+        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow();
+
+        return bookingRepository.findAllByUser(user)
+                .stream()
+                .map(bookingMapper::bookingEntityToViewModel)
+                .collect(Collectors.toList());
     }
 }

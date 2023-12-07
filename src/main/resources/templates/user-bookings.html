@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/common :: head}">
+</head>
+<body>
+<div>
+    <nav th:replace="~{/fragments/common :: navbar}"></nav>
+</div>
+<div class="container-fluid">
+    <h2 class="text-center text-white mt-5">Your Bookings</h2>
+</div>
+
+<table class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">
+    <thead class="text-center">
+    <tr>
+        <th scope="col">Sport Class</th>
+        <th scope="col">Day</th>
+        <th scope="col">Start Time</th>
+        <th scope="col">End Time</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody class="text-center">
+        <tr th:each="booking : ${bookingsByUser}">
+            <td th:text="|${booking.sportClass.sport.name} ${booking.sportClass.instructor.fullName}|"></td>
+            <td th:text="${booking.sportClass.getDayOfWeekDisplayName()}"></td>
+            <td th:text="${booking.sportClass.startTime}"></td>
+            <td th:text="${booking.sportClass.endTime}"></td>
+            <td th:text="${booking.status}"></td>
+            <td>
+                <div class="text-center">
+                    <a th:href="@{/myBookings/cancelBooking/{bookingId}(bookingId=*{booking.id})}" class="btn btn-primary">Cancel</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

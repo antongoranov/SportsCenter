@@ -1,5 +1,6 @@
 package com.sportscenter.web;
 
+import com.sportscenter.model.view.BookingViewModel;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.service.BookingService;
 import com.sportscenter.service.SportClassService;
@@ -11,18 +12,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/bookSportClass")
+//@RequestMapping("/bookSportClass")
 public class BookingController {
 
     private final BookingService bookingService;
     private final SportClassService sportClassService;
 
-    @GetMapping("/{sportClassId}")
+    @GetMapping("/bookSportClass/{sportClassId}")
     public String getBookSportClass(@PathVariable Long sportClassId, Model model){
 
         SportClassBookingViewModel sportClass = sportClassService.getSportClassById(sportClassId);
@@ -38,12 +40,12 @@ public class BookingController {
     }
 
     //@PreAuthorize(hasAvailableSpots)
-    @PostMapping("/{sportClassId}")
+    @PostMapping("/bookSportClass/{sportClassId}")
     public String bookSportClass(@AuthenticationPrincipal UserDetails userDetails,
                                  @PathVariable Long sportClassId,
                                  RedirectAttributes redirectAttributes){
 
-        boolean hasActiveBookings = bookingService.findActiveBookingsByUser(userDetails);
+        boolean hasActiveBookings = bookingService.hasActiveBookings(userDetails);
         if(hasActiveBookings) {
             redirectAttributes.addFlashAttribute("hasActiveBookings", true);
 
@@ -53,6 +55,16 @@ public class BookingController {
         bookingService.bookASportClass(userDetails, sportClassId);
 
         //implement a success page or redirect to MyBookings page
-        return "redirect:/";
+        return "redirect:/myBookings";
+    }
+
+    @GetMapping("/myBookings")
+    public String userBookings(Model model, @AuthenticationPrincipal UserDetails userDetails){
+
+        List<BookingViewModel> bookingsByUser = bookingService.findBookingsByUser(userDetails);
+
+        model.addAttribute("bookingsByUser", bookingsByUser);
+
+        return "user-bookings";
     }
 }

@@ -52,12 +52,11 @@
                 <a class="nav-link" th:href="@{/sportclasses/all}">All Sport Classes</a>
             </li>
 
-            <!--                <th:block>-->
             <li class="nav-item">
                 <a class="nav-link" href="/">Instructors</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/">Book a Sport Class</a>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/myBookings}">My Bookings</a>
             </li>
 
             <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
@@ -84,7 +83,6 @@
                     </form>
                 </div>
             </li>
-            <!--                </th:block>-->
 
             <th:block sec:authorize="isAnonymous()">
                 <li class="nav-item">

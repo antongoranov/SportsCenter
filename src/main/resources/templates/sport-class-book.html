@@ -17,7 +17,6 @@
     <div class="container">
         <div class="card mx-auto" style="width: 80%;">
             <div class="card-img-top-wrapper">
-                <!--                not displaying the image correctly-->
                 <img class="card-img-top " th:src="*{sport.sportImageUrl}" alt="Class image">
             </div>
             <div class="card-body">
@@ -33,12 +32,13 @@
                 <p th:if="${hasActiveBookings}"
                    class="errors alert alert-danger">
                     Unable to process booking! You already have an active booking!
+                    Go to <a th:href="@{/myBookings}">My Bookings</a>
                 </p>
 
                 <th:block th:if="${noAvailableSpots}">
-                    <p class="alert alert-info">
+                    <p class="alert alert-info" role="alert">
                         I am sorry but all spots for this class are booked :(.
-                        Go <a th:href="@{/sportclasses/all}">back</a> and choose another Sport Class.
+                        Go <a th:href="@{/sportclasses/all}" class="alert-link">back</a> and choose another Sport Class.
                     </p>
                 </th:block>
 
@@ -47,7 +47,6 @@
                         <input type="submit" class="btn btn-dark btn-lg btn-block" value="Book your spot!"/>
                     </div>
                 </th:block>
-
 
                 <!--                <div class="text-center">-->
                 <!--                    <a th:href="@{/bookSportClass/{sportClassId}(sportClassId=*{sport.id})}" class="btn btn-primary">Book your spot!</a>-->

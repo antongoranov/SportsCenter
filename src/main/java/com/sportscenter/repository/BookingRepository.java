@@ -13,4 +13,6 @@ public interface BookingRepository extends JpaRepository<BookingEntity, Long> {
 
     //change it to return only 1 entity, because user can have only 1 Active booking
     List<BookingEntity> findAllByUserAndStatus(UserEntity user, BookingStatusEnum status);
+
+    List<BookingEntity> findAllByUser(UserEntity user);
 }
