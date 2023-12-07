@@ -32,13 +32,6 @@ public class SportClassServiceImpl implements SportClassService {
     }
 
     @Override
-    public List<SportClassViewModel> sportClassesByDayOfWeek(DayOfWeek day) {
-        return sportClassRepository.findAllByDayOfWeek(day)
-                .stream().map(sportClassMapper::sportClassEntityToViewModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public SportClassViewModel getMatchedSportClass(
             List<SportClassViewModel> sportClasses,
             int dayOfWeek,
@@ -62,13 +55,17 @@ public class SportClassServiceImpl implements SportClassService {
     }
 
     @Override
-    public boolean hasAvailableSpots(SportClassEntity sportClass) {
+    public boolean hasAvailableSpots(Long sportClassId) {
+
+        SportClassEntity sportClass = sportClassRepository.findById(sportClassId)
+                .orElseThrow();
+
         return sportClass.getCurrentCapacity() + 1 <= sportClass.getMaxCapacity();
     }
 
     @Override
-    public void updateCapacity(SportClassEntity sportClass){
-        if (hasAvailableSpots(sportClass)) {
+    public void updateCapacity(SportClassEntity sportClass) {
+        if (hasAvailableSpots(sportClass.getId())) {
             sportClass.setCurrentCapacity(sportClass.getCurrentCapacity() + 1);
 
             //update

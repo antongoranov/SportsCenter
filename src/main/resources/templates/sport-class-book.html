@@ -14,10 +14,10 @@
       th:method="post"
       th:action="@{/bookSportClass/{sportClassId}(sportClassId=*{id})}">
 
-    <div class="container" >
+    <div class="container">
         <div class="card mx-auto" style="width: 80%;">
             <div class="card-img-top-wrapper">
-<!--                not displaying the image correctly-->
+                <!--                not displaying the image correctly-->
                 <img class="card-img-top " th:src="*{sport.sportImageUrl}" alt="Class image">
             </div>
             <div class="card-body">
@@ -26,16 +26,32 @@
                     Sport and instructor names with start and end timestamps
                 </h5>
                 <span th:text="|*{currentCapacity} / *{maxCapacity} spots booked|"></span>
-                <p class="card-tex" th:text="*{sport.description}">Short generic description of the sport class including
-                the instructor name.</p>
+                <p class="card-tex" th:text="*{sport.description}">Short generic description of the sport class
+                    including
+                    the instructor name.</p>
 
-                <div class="pt-1 mb-4 text-center">
-                    <input type="submit" class="btn btn-dark btn-lg btn-block" value="Book your spot!"/>
-                </div>
+                <p th:if="${hasActiveBookings}"
+                   class="errors alert alert-danger">
+                    Unable to process booking! You already have an active booking!
+                </p>
 
-<!--                <div class="text-center">-->
-<!--                    <a th:href="@{/bookSportClass/{sportClassId}(sportClassId=*{sport.id})}" class="btn btn-primary">Book your spot!</a>-->
-<!--                </div>-->
+                <th:block th:if="${noAvailableSpots}">
+                    <p class="alert alert-info">
+                        I am sorry but all spots for this class are booked :(.
+                        Go <a th:href="@{/sportclasses/all}">back</a> and choose another Sport Class.
+                    </p>
+                </th:block>
+
+                <th:block th:unless="${noAvailableSpots}">
+                    <div class="pt-1 mb-4 text-center">
+                        <input type="submit" class="btn btn-dark btn-lg btn-block" value="Book your spot!"/>
+                    </div>
+                </th:block>
+
+
+                <!--                <div class="text-center">-->
+                <!--                    <a th:href="@{/bookSportClass/{sportClassId}(sportClassId=*{sport.id})}" class="btn btn-primary">Book your spot!</a>-->
+                <!--                </div>-->
             </div>
         </div>
     </div>

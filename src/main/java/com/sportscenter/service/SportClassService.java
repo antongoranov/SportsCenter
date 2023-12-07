@@ -10,11 +10,6 @@ import java.util.List;
 public interface SportClassService {
 
     List<SportClassViewModel> allClasses();
-
-
-    //remove it
-    List<SportClassViewModel> sportClassesByDayOfWeek(DayOfWeek day);
-
     SportClassViewModel getMatchedSportClass(
             List<SportClassViewModel> sportClasses,
             int dayOfWeek,
@@ -23,7 +18,7 @@ public interface SportClassService {
 
     SportClassBookingViewModel getSportClassById(Long sportClassId);
 
-    boolean hasAvailableSpots(SportClassEntity sportClass);
+    boolean hasAvailableSpots(Long sportClassId);
 
     void updateCapacity(SportClassEntity sportClass);
 }

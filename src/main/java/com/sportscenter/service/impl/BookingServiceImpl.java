@@ -1,6 +1,5 @@
 package com.sportscenter.service.impl;
 
-import com.sportscenter.exception.UnableToProcessBookingException;
 import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.entity.UserEntity;
@@ -29,22 +28,25 @@ public class BookingServiceImpl implements BookingService {
         UserEntity user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow();
 
-        boolean hasActiveBookings = findActiveBookingsByUser(user);
-
-        if(hasActiveBookings) {
-            //LOGGER
-            throw new UnableToProcessBookingException("Unable to process booking! " + user.getUsername() + " is having active bookings!");
-        }
+        //move the check to the controller - do not call the method if invalid
+//        boolean hasActiveBookings = findActiveBookingsByUser(user);
+//
+//
+//        if(hasActiveBookings) {
+//            //LOGGER
+//            throw new UnableToProcessBookingException("Unable to process booking! " + user.getUsername() + " is having active bookings!");
+//        }
 
         //will always have a valid sportClass id, as it passed from the bookSportClass GET endpoint
         SportClassEntity sportClass = sportClassRepository.findById(sportClassId).get();
 
-        boolean hasAvailableSportClassSpots = sportClassService.hasAvailableSpots(sportClass);
-
-        if(!hasAvailableSportClassSpots) {
-            //LOGGER
-            throw new UnableToProcessBookingException("Unable to process booking! " + sportClass.getSportClassInfo() + " does not have available spots!");
-        }
+        //move the check to the controller - do not call the method if invalid
+//        boolean hasAvailableSportClassSpots = sportClassService.hasAvailableSpots(sportClass.getId());
+//
+//        if(!hasAvailableSportClassSpots) {
+//            //LOGGER
+//            throw new UnableToProcessBookingException("Unable to process booking! " + sportClass.getSportClassInfo() + " does not have available spots!");
+//        }
 
         BookingEntity booking = BookingEntity.builder()
                 .sportClass(sportClass)
@@ -52,14 +54,20 @@ public class BookingServiceImpl implements BookingService {
                 .status(BookingStatusEnum.ACTIVE)
                 .build();
 
-        //sportClass.setCurrentCapacity(sportClass.getCurrentCapacity() + 1);
-        //update the current sportClass with the new capacity and save to db
+        //update the current sportClass with the new capacity
         sportClassService.updateCapacity(sportClass);
+
+        //save booking to db
         bookingRepository.save(booking);
 
     }
 
-    private boolean findActiveBookingsByUser(UserEntity user) {
+    @Override
+    public boolean findActiveBookingsByUser(UserDetails userDetails) {
+
+        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow();
+
         return bookingRepository.findAllByUserAndStatus(user, BookingStatusEnum.ACTIVE)
                 .size() > 0;
     }
