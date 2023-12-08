@@ -5,6 +5,7 @@ import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.service.BookingService;
 import com.sportscenter.service.SportClassService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -59,12 +61,22 @@ public class BookingController {
     }
 
     @GetMapping("/myBookings")
-    public String userBookings(Model model, @AuthenticationPrincipal UserDetails userDetails){
+    public String userBookings(@AuthenticationPrincipal UserDetails userDetails, Model model){
 
         List<BookingViewModel> bookingsByUser = bookingService.findBookingsByUser(userDetails);
 
         model.addAttribute("bookingsByUser", bookingsByUser);
 
         return "user-bookings";
+    }
+
+    @PreAuthorize("@bookingServiceImpl.isUserIssuerOfBooking(#userDetails, #bookingId)")
+    @PutMapping("/myBookings/cancelBooking/{bookingId}")
+    public String cancelBooking(@AuthenticationPrincipal UserDetails userDetails,
+                                @PathVariable Long bookingId){
+
+        bookingService.cancelBooking(userDetails, bookingId);
+
+        return "redirect:/myBookings";
     }
 }

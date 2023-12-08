@@ -1,6 +1,7 @@
 package com.sportscenter.service.impl;
 
 import com.sportscenter.exception.SportClassNotFoundException;
+import com.sportscenter.exception.UnableToProcessOperationException;
 import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.mapper.SportClassMapper;
 import com.sportscenter.model.view.SportClassBookingViewModel;
@@ -10,7 +11,6 @@ import com.sportscenter.service.SportClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,6 +70,20 @@ public class SportClassServiceImpl implements SportClassService {
 
             //update
             sportClassRepository.save(sportClass);
+        } else {
+            //log
+            throw new UnableToProcessOperationException("No spots available! Cannot increase capacity of " + sportClass.getSportClassInfo());
+        }
+    }
+
+    @Override
+    public void decreaseCapacity(SportClassEntity sportClass) {
+        if(sportClass.getCurrentCapacity() - 1 >= 0) {
+            sportClass.setCurrentCapacity(sportClass.getCurrentCapacity() - 1);
+
+            sportClassRepository.save(sportClass);
+        } else {
+            throw new UnableToProcessOperationException("Cannot decrease capacity below 0 of " + sportClass.getSportClassInfo());
         }
     }
 }

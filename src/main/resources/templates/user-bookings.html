@@ -32,9 +32,17 @@
             <td th:text="${booking.sportClass.endTime}"></td>
             <td th:text="${booking.status}"></td>
             <td>
-                <div class="text-center">
-                    <a th:href="@{/myBookings/cancelBooking/{bookingId}(bookingId=*{booking.id})}" class="btn btn-primary">Cancel</a>
-                </div>
+                <form th:action="@{/myBookings/cancelBooking/{bookingId}(bookingId=*{booking.id})}"
+                      th:method="put">
+                    <div class="text-center">
+                        <button th:if="${booking.statusNotActive}" class="btn btn-primary" value="Cancel" disabled>
+                            Cancel
+                        </button>
+                        <button th:unless="${booking.statusNotActive}" type="submit" class="btn btn-primary" value="Cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
             </td>
         </tr>
     </tbody>

@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name = "bookings")
 public class BookingEntity extends BaseEntity {
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private UserEntity user;
 
     @ManyToOne(optional = false)

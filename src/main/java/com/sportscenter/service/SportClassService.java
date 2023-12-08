@@ -4,7 +4,7 @@ import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 
-import java.time.DayOfWeek;
+import javax.naming.OperationNotSupportedException;
 import java.util.List;
 
 public interface SportClassService {
@@ -21,4 +21,6 @@ public interface SportClassService {
     boolean hasAvailableSpots(Long sportClassId);
 
     void updateCapacity(SportClassEntity sportClass);
+
+    void decreaseCapacity(SportClassEntity bookedSportClass);
 }

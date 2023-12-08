@@ -13,4 +13,8 @@ public interface BookingService {
     boolean hasActiveBookings(UserDetails userDetails);
 
     List<BookingViewModel> findBookingsByUser(UserDetails userDetails);
+
+    void cancelBooking(UserDetails userDetails, Long bookingId);
+
+    boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId);
 }

@@ -89,4 +89,36 @@ public class BookingServiceImpl implements BookingService {
                 .map(bookingMapper::bookingEntityToViewModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void cancelBooking(UserDetails userDetails, Long bookingId) {
+        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow();
+
+        //will always have a valid booking id
+        BookingEntity booking = bookingRepository.findById(bookingId).get();
+
+        //if(isUserIssuerOfBooking(user, booking))
+
+        //handled by isUserIssuerOfBooking(UserDetails userDetails, Long bookingId)
+        //if(user.getId().equals(booking.getUser().getId())){}
+
+        booking.setStatus(BookingStatusEnum.CANCELLED);
+
+        SportClassEntity bookedSportClass = booking.getSportClass();
+        sportClassService.decreaseCapacity(bookedSportClass);
+
+        bookingRepository.save(booking);
+    }
+
+    @Override
+    public boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId) {
+
+        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow();
+
+        BookingEntity booking = bookingRepository.findById(bookingId).get();
+
+        return user.getId().equals(booking.getUser().getId());
+    }
 }
