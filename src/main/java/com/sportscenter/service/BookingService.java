@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
-//TODO
 public interface BookingService {
 
     void bookASportClass(UserDetails userDetails, Long sportClassId);
@@ -14,7 +13,7 @@ public interface BookingService {
 
     List<BookingViewModel> findBookingsByUser(UserDetails userDetails);
 
-    void cancelBooking(UserDetails userDetails, Long bookingId);
+    void cancelBooking(Long bookingId);
 
-    boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId);
+//    boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId);
 }

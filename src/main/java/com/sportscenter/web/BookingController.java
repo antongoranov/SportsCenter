@@ -56,7 +56,6 @@ public class BookingController {
 
         bookingService.bookASportClass(userDetails, sportClassId);
 
-        //implement a success page or redirect to MyBookings page
         return "redirect:/myBookings";
     }
 
@@ -70,12 +69,12 @@ public class BookingController {
         return "user-bookings";
     }
 
-    @PreAuthorize("@bookingServiceImpl.isUserIssuerOfBooking(#userDetails, #bookingId)")
+//    @PreAuthorize("@bookingServiceImpl.isUserIssuerOfBooking(#userDetails, #bookingId)")
     @PutMapping("/myBookings/cancelBooking/{bookingId}")
-    public String cancelBooking(@AuthenticationPrincipal UserDetails userDetails,
+    public String cancelBooking(//@AuthenticationPrincipal UserDetails userDetails,
                                 @PathVariable Long bookingId){
 
-        bookingService.cancelBooking(userDetails, bookingId);
+        bookingService.cancelBooking(bookingId);
 
         return "redirect:/myBookings";
     }

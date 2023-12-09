@@ -91,14 +91,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void cancelBooking(UserDetails userDetails, Long bookingId) {
-        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow();
+    public void cancelBooking(Long bookingId) {
 
+//        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+//                .orElseThrow();
+
+        //the logged user can only see his bookings, hence, there is no need to check if the user is an owner
         //will always have a valid booking id
         BookingEntity booking = bookingRepository.findById(bookingId).get();
-
-        //if(isUserIssuerOfBooking(user, booking))
 
         //handled by isUserIssuerOfBooking(UserDetails userDetails, Long bookingId)
         //if(user.getId().equals(booking.getUser().getId())){}
@@ -111,14 +111,15 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(booking);
     }
 
-    @Override
-    public boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId) {
-
-        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow();
-
-        BookingEntity booking = bookingRepository.findById(bookingId).get();
-
-        return user.getId().equals(booking.getUser().getId());
-    }
+    //the logged user can only see his bookings, hence, there is no need to check if the user is an owner
+//    @Override
+//    public boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId) {
+//
+//        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+//                .orElseThrow();
+//
+//        BookingEntity booking = bookingRepository.findById(bookingId).get();
+//
+//        return user.getId().equals(booking.getUser().getId());
+//    }
 }
