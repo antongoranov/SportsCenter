@@ -44,8 +44,8 @@ public class SportClassEntity extends BaseEntity {
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    @OneToMany(mappedBy = "sportClass", targetEntity = BookingEntity.class)
-    private List<BookingEntity> bookings;
+    //@OneToMany(mappedBy = "sportClass", targetEntity = BookingEntity.class)
+    //private List<BookingEntity> bookings;
 
     public String getDayOfWeekDisplayName(){
         return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());

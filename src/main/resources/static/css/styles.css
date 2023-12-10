@@ -72,6 +72,14 @@ form.main-form {
     border-radius: 20px;
 }
 
+li {
+    list-style: none;
+}
+
+.bg-grey {
+    background-image: linear-gradient(to bottom right, rgba(70, 70, 70, 0.8), rgba(10, 10, 10, 0.8));
+}
+
 /*h2 {*/
 /*    background-image: linear-gradient(to bottom right, rgba(70, 70, 70, 0.8), rgba(10, 10, 10, 0.8));*/
 /*    padding:10px 30px;*/

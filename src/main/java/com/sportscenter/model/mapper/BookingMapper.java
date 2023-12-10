@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = SportClassMapper.class)
 public interface BookingMapper {
 
     @Mapping(source = "id", target = "id")

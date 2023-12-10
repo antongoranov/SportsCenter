@@ -38,10 +38,10 @@ VALUES (1, 1, 2, 1, 'MONDAY', '19:00:00', '20:00:00'),
 
 INSERT INTO users(email, first_name, last_name, password, username, profile_picture_url)
 VALUES ('anton@anton.com', 'Anton', 'Goranov',
-        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov', 'admin.img'),
+        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov', '/images/users/admin.jpg'),
 
        ('user@gmail.com', 'User', 'Userov',
-        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user', 'test-user.jpg'),
+        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user', '/images/users/test-user.jpg'),
 
        ('stela@gmail.com', 'Stela', 'Ivanova',
         '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'stela', NULL);

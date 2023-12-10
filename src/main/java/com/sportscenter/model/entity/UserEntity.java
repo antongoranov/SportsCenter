@@ -3,6 +3,7 @@ package com.sportscenter.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -29,6 +30,9 @@ public class UserEntity extends BaseEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "profile_picture_url")
+    private String profilePictureUrl;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -36,6 +40,8 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<UserRoleEntity> roles;
 
-    @Column(name = "profile_picture_url")
-    private String profilePictureUrl;
+    @OneToMany(mappedBy = "user", targetEntity = BookingEntity.class)
+    private List<BookingEntity> bookings;
+
+
 }

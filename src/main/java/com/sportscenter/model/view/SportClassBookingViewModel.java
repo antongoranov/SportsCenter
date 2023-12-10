@@ -12,13 +12,15 @@ import java.util.Locale;
 @Data
 public class SportClassBookingViewModel {
 
-//    private Long sportId;
-//    private String sportName;
-//    private String sportImageUrl;
-//    private String sportDescription;
-
+    //sportClassId
     private Long id;
-    private SportEntity sport;
+
+    //private SportEntity sport;
+    private Long sportId;
+    private String sportName;
+    private String sportImageUrl;
+    private String sportDescription;
+
     private String instructorName;
 
     private int maxCapacity;

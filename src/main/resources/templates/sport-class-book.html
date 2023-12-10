@@ -17,15 +17,15 @@
     <div class="container">
         <div class="card mx-auto" style="width: 80%;">
             <div class="card-img-top-wrapper">
-                <img class="card-img-top " th:src="*{sport.sportImageUrl}" alt="Class image">
+                <img class="card-img-top " th:src="*{sportImageUrl}" alt="Class image">
             </div>
             <div class="card-body">
                 <h5 class="card-title"
-                    th:text="|*{sport.name} with *{instructorName} - *{dayOfWeekGetDisplayName()} *{startTime.hour}:00 - *{endTime.hour}:00|">
+                    th:text="|*{sportName} with *{instructorName} - *{dayOfWeekGetDisplayName()} *{startTime.hour}:00 - *{endTime.hour}:00|">
                     Sport and instructor names with start and end timestamps
                 </h5>
                 <span th:text="|*{currentCapacity} / *{maxCapacity} spots booked|"></span>
-                <p class="card-tex" th:text="*{sport.description}">Short generic description of the sport class
+                <p class="card-tex" th:text="*{sportDescription}">Short generic description of the sport class
                     including
                     the instructor name.</p>
 

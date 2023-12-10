@@ -26,8 +26,8 @@
     </thead>
     <tbody class="text-center">
         <tr th:each="booking : ${bookingsByUser}">
-            <td th:text="|${booking.sportClass.sport.name} ${booking.sportClass.instructor.fullName}|"></td>
-            <td th:text="${booking.sportClass.getDayOfWeekDisplayName()}"></td>
+            <td th:text="|${booking.sportClass.sportName} ${booking.sportClass.instructorName}|"></td>
+            <td th:text="${booking.sportClass.dayOfWeekGetDisplayName()}"></td>
             <td th:text="${booking.sportClass.startTime}"></td>
             <td th:text="${booking.sportClass.endTime}"></td>
             <td th:text="${booking.status}"></td>

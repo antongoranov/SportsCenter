@@ -26,9 +26,10 @@ public class SportEntity extends BaseEntity{
     @Column(name = "sport_image_url")
     private String sportImageUrl;
 
+    //edit
     @OneToMany(
             targetEntity = InstructorEntity.class,
             mappedBy = "sport")
-    Set<InstructorEntity> instructors;
+    private Set<InstructorEntity> instructors;
 
 }

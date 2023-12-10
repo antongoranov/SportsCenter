@@ -6,9 +6,12 @@ import lombok.Data;
 @Data
 public class BookingViewModel {
 
+    //booking id
     private Long id;
 
-    private SportClassEntity sportClass;
+    //use dto instead of entity
+    //private SportClassEntity sportClass;
+    private SportClassBookingViewModel sportClass;
 
     private String status;
 

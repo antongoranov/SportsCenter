@@ -1,18 +1,17 @@
 package com.sportscenter.service.impl;
 
+import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
+import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +44,13 @@ public class UserServiceImpl implements UserService {
 
         //login(userEntity.getUsername());
 
+    }
+
+    @Override
+    public UserProfileViewModel getUserProfileByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userMapper::userEntityToProfileViewModel)
+                .orElseThrow(() -> new UserNotFoundException("User with " + username + " does not exist!"));
     }
 
     //after redirection the context is set to AnonymousToken
