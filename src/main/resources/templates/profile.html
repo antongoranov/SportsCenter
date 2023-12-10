@@ -52,9 +52,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- Form -->
-                                    <form method='post' action='' enctype="multipart/form-data">
-                                        <input type='file' name='file' id='file' class='form-control'><br>
-                                        <input type='button' class='btn btn-secondary' value='Upload' id='btn_upload'>
+                                    <form th:method= "patch"
+                                          th:action="@{/users/myProfile/uploadProfilePic}"
+                                          th:object="${userPictureBindingModel}"
+                                          enctype="multipart/form-data">
+                                        <input type='file' name='filePicture' id='file' class='form-control'><br>
+                                        <input type='submit' class='btn btn-secondary' value='Upload' id='btn_upload'>
                                     </form>
                                 </div>
                             </div>

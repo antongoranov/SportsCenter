@@ -1,21 +1,28 @@
 package com.sportscenter.service.impl;
 
+import com.sportscenter.exception.UnableToProcessOperationException;
 import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
+import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -26,7 +33,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService appUserDetailsService;
+
+    private static final String UPLOAD_DIRECTORY =
+            new File("src\\main\\resources\\static\\images\\users").getAbsolutePath();
 
     @Override
     public void register(UserRegistrationServiceModel userRegistrationServiceModel) {
@@ -36,7 +45,7 @@ public class UserServiceImpl implements UserService {
                         userRoleRepository.findByRole(UserRoleEnum.ADMIN) :
                         userRoleRepository.findByRole(UserRoleEnum.USER);
 
-        UserEntity userEntity =  userMapper.userRegistrationServiceToUserEntity(userRegistrationServiceModel);
+        UserEntity userEntity = userMapper.userRegistrationServiceToUserEntity(userRegistrationServiceModel);
         userEntity.setPassword(passwordEncoder.encode(userRegistrationServiceModel.getPassword()));
         userEntity.setRoles(Set.of(userRole));
 
@@ -64,4 +73,23 @@ public class UserServiceImpl implements UserService {
 //
 //        SecurityContextHolder.getContext().setAuthentication(auth);
 //    }
+
+
+    @Override
+    public void changeProfilePic(UserPictureServiceModel userPictureServiceModel) throws IOException {
+
+        MultipartFile filePicture = userPictureServiceModel.getFilePicture();
+
+        UserEntity user = userRepository.findByUsername(userPictureServiceModel.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(
+                        "User with " + userPictureServiceModel.getUsername() + " does not exist!"));
+
+        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, filePicture.getOriginalFilename());
+
+        //overrides the file
+        Files.write(fileNameAndPath, filePicture.getBytes());
+
+        user.setProfilePictureUrl("/images/users/" + filePicture.getOriginalFilename());
+        userRepository.save(user);
+    }
 }
