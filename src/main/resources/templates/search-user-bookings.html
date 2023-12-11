@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/common :: head}">
+</head>
+<body>
+<div>
+    <nav th:replace="~{/fragments/common :: navbar}"></nav>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white mt-5">All Bookings</h2>
+
+    <form
+            th:method="GET"
+            th:action="@{/bookings/all}"
+            th:object="${userSearch}"
+            class="form-inline"
+            style="justify-content: center; margin-top: 50px;">
+        <div style="position: relative">
+            <input
+                    th:field="*{username}"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="Enter username"
+                    aria-label="Search"
+                    id="username"/>
+
+            <p th:if="${userNotExist}"
+                    class="bg-danger text-light rounded"
+                    style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;">
+                User does not exist!
+            </p>
+        </div>
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</div>
+
+<div class="my-5" th:if="${allBookingsByUser != null && allBookingsByUser.size != 0}">
+    <table class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">
+        <thead class="text-center">
+        <tr>
+            <th scope="col">Sport Class</th>
+            <th scope="col">Day</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+            <th scope="col">Status</th>
+            <th scope="col">Cancel</th>
+            <th scope="col">Accept</th>
+        </tr>
+        </thead>
+        <tbody class="text-center">
+        <tr th:each="booking : ${allBookingsByUser}">
+            <td th:text="|${booking.sportClass.sportName} ${booking.sportClass.instructorName}|"></td>
+            <td th:text="${booking.sportClass.dayOfWeekGetDisplayName()}"></td>
+            <td th:text="${booking.sportClass.startTime}"></td>
+            <td th:text="${booking.sportClass.endTime}"></td>
+            <td th:text="${booking.status}"></td>
+            <td>
+                <form th:action="@{/bookings/all/cancelBooking/{bookingId}(bookingId=*{booking.id})}"
+                      th:method="patch">
+                    <div class="text-center">
+                        <button th:if="${booking.statusNotActive}" class="btn btn-primary" value="Cancel" disabled>
+                            Cancel
+                        </button>
+                        <button th:unless="${booking.statusNotActive}" type="submit" class="btn btn-primary"
+                                value="Cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/bookings/all/acceptBooking/{bookingId}(bookingId=*{booking.id})}"
+                      th:method="patch">
+                    <div class="text-center">
+                        <button th:if="${booking.statusNotActive}" class="btn btn-primary" value="Accept" disabled>
+                            Accept
+                        </button>
+                        <button th:unless="${booking.statusNotActive}" type="submit" class="btn btn-primary"
+                                value="Accept">
+                            Accept
+                        </button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<h3 th:if="${allBookingsByUser != null && allBookingsByUser.size == 0}" class="text-center text-white my-3">
+    There are no bookings by this user</h3>
+
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -33,7 +33,7 @@
             <td th:text="${booking.status}"></td>
             <td>
                 <form th:action="@{/myBookings/cancelBooking/{bookingId}(bookingId=*{booking.id})}"
-                      th:method="put">
+                      th:method="patch">
                     <div class="text-center">
                         <button th:if="${booking.statusNotActive}" class="btn btn-primary" value="Cancel" disabled>
                             Cancel

@@ -92,4 +92,11 @@ public class UserServiceImpl implements UserService {
         user.setProfilePictureUrl("/images/users/" + filePicture.getOriginalFilename());
         userRepository.save(user);
     }
+
+    @Override
+    public boolean userExists(String username) {
+        return userRepository
+                .findByUsername(username)
+                .isPresent();
+    }
 }

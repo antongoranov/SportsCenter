@@ -1,10 +1,12 @@
 package com.sportscenter.service.impl;
 
+import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.SportClassEntity;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.enums.BookingStatusEnum;
 import com.sportscenter.model.mapper.BookingMapper;
+import com.sportscenter.model.service.UserSearchServiceModel;
 import com.sportscenter.model.view.BookingViewModel;
 import com.sportscenter.repository.BookingRepository;
 import com.sportscenter.repository.SportClassRepository;
@@ -82,7 +84,7 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingViewModel> findBookingsByUser(UserDetails userDetails) {
 
         UserEntity user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException("User with " + userDetails.getUsername() + " does not exist!"));
 
         return bookingRepository.findAllByUser(user)
                 .stream()
@@ -107,6 +109,29 @@ public class BookingServiceImpl implements BookingService {
 
         SportClassEntity bookedSportClass = booking.getSportClass();
         sportClassService.decreaseCapacity(bookedSportClass);
+
+        bookingRepository.save(booking);
+    }
+
+    @Override
+    public List<BookingViewModel> findBookingsByUsername(UserSearchServiceModel userSearchServiceModel) {
+
+        String username = userSearchServiceModel.getUsername();
+
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with " + username + " does not exist!"));
+
+        return bookingRepository.findAllByUser(user)
+                .stream()
+                .map(bookingMapper::bookingEntityToViewModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void acceptBooking(Long bookingId) {
+        BookingEntity booking = bookingRepository.findById(bookingId).get();
+
+        booking.setStatus(BookingStatusEnum.ACCEPTED);
 
         bookingRepository.save(booking);
     }
