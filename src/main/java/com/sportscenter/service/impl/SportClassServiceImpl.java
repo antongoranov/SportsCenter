@@ -2,15 +2,19 @@ package com.sportscenter.service.impl;
 
 import com.sportscenter.exception.SportClassNotFoundException;
 import com.sportscenter.exception.UnableToProcessOperationException;
+import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.SportClassEntity;
+import com.sportscenter.model.enums.BookingStatusEnum;
 import com.sportscenter.model.mapper.SportClassMapper;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 import com.sportscenter.repository.SportClassRepository;
 import com.sportscenter.service.SportClassService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,5 +89,25 @@ public class SportClassServiceImpl implements SportClassService {
         } else {
             throw new UnableToProcessOperationException("Cannot decrease capacity below 0 of " + sportClass.getSportClassInfo());
         }
+    }
+
+    //***Scheduled tasks***
+
+    //Everyday at midnight set the capacity of passed classes to 0 for the next week bookings
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resetSportClassCapacityAtEndOfDay(){
+        LocalDateTime endOfDay = LocalDateTime.now();
+
+        List<SportClassEntity> sportClassesToReset =
+                sportClassRepository.findByDayOfWeek(endOfDay.getDayOfWeek());
+
+        sportClassesToReset
+                .forEach(sportClass -> {
+
+                    sportClass.setCurrentCapacity(0);
+
+                    sportClassRepository.save(sportClass);
+                });
     }
 }

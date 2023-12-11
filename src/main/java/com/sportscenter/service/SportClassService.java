@@ -23,4 +23,6 @@ public interface SportClassService {
     void updateCapacity(SportClassEntity sportClass);
 
     void decreaseCapacity(SportClassEntity bookedSportClass);
+
+    void resetSportClassCapacityAtEndOfDay();
 }

@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface SportClassRepository extends JpaRepository<SportClassEntity, Long> {
 
-    List<SportClassEntity> findAllByDayOfWeek(DayOfWeek day);
+    List<SportClassEntity> findByDayOfWeek(DayOfWeek dayOfWeek);
+
 }

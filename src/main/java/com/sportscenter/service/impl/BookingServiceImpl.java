@@ -14,9 +14,11 @@ import com.sportscenter.repository.UserRepository;
 import com.sportscenter.service.BookingService;
 import com.sportscenter.service.SportClassService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -135,6 +137,25 @@ public class BookingServiceImpl implements BookingService {
 
         bookingRepository.save(booking);
     }
+
+    //***Scheduled tasks***
+
+    //Everyday at midnight set the status of unused bookings to expired
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void expireBookingsAtEndOfDay() {
+        LocalDateTime endOfDay = LocalDateTime.now();//.with(LocalTime.MAX);
+
+        List<BookingEntity> bookingsToExpire =
+                bookingRepository.findBySportClassDayOfWeekAndStatus(endOfDay.getDayOfWeek(), BookingStatusEnum.ACTIVE);
+
+        bookingsToExpire
+                .forEach(booking -> {
+                    booking.setStatus(BookingStatusEnum.EXPIRED);
+                    bookingRepository.save(booking);
+                });
+    }
+
 
     //the logged user can only see his bookings, hence, there is no need to check if the user is an owner
 //    @Override
