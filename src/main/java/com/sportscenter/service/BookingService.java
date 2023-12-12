@@ -25,5 +25,7 @@ public interface BookingService {
     @Scheduled(cron = "0 0 0 * * ?")
     void expireBookingsAtEndOfDay();
 
+    void deleteExpiredBookingsAtEndOfWeek();
+
 //    boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId);
 }

@@ -18,6 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -142,18 +143,31 @@ public class BookingServiceImpl implements BookingService {
 
     //Everyday at midnight set the status of unused bookings to expired
     @Override
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 59 23 * * ?")
     public void expireBookingsAtEndOfDay() {
-        LocalDateTime endOfDay = LocalDateTime.now();//.with(LocalTime.MAX);
+        DayOfWeek today = LocalDateTime.now().getDayOfWeek();
 
         List<BookingEntity> bookingsToExpire =
-                bookingRepository.findBySportClassDayOfWeekAndStatus(endOfDay.getDayOfWeek(), BookingStatusEnum.ACTIVE);
+                bookingRepository.findBySportClassDayOfWeekAndStatus(today, BookingStatusEnum.ACTIVE);
 
         bookingsToExpire
                 .forEach(booking -> {
                     booking.setStatus(BookingStatusEnum.EXPIRED);
                     bookingRepository.save(booking);
                 });
+    }
+
+
+    //Every Sunday at 23:59 delete all non Active bookings to reset them for the next week;
+    //Leave the Active ones which are already made for the next week.
+    @Override
+    @Scheduled(cron = "0 59 23 ? * SUN")
+    public void deleteExpiredBookingsAtEndOfWeek() {
+
+        List<BookingEntity> notActiveBookings =
+                bookingRepository.findByStatusNot(BookingStatusEnum.ACTIVE);
+
+        bookingRepository.deleteAll(notActiveBookings);
     }
 
 

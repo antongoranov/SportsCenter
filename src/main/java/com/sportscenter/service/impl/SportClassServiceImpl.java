@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,18 +96,16 @@ public class SportClassServiceImpl implements SportClassService {
 
     //Everyday at midnight set the capacity of passed classes to 0 for the next week bookings
     @Override
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 59 23 * * ?")
     public void resetSportClassCapacityAtEndOfDay(){
-        LocalDateTime endOfDay = LocalDateTime.now();
+        DayOfWeek today = LocalDateTime.now().getDayOfWeek();
 
         List<SportClassEntity> sportClassesToReset =
-                sportClassRepository.findByDayOfWeek(endOfDay.getDayOfWeek());
+                sportClassRepository.findByDayOfWeek(today);
 
         sportClassesToReset
                 .forEach(sportClass -> {
-
                     sportClass.setCurrentCapacity(0);
-
                     sportClassRepository.save(sportClass);
                 });
     }

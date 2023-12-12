@@ -18,4 +18,6 @@ public interface BookingRepository extends JpaRepository<BookingEntity, Long> {
     List<BookingEntity> findAllByUser(UserEntity user);
 
     List<BookingEntity> findBySportClassDayOfWeekAndStatus(DayOfWeek dayOfWeek, BookingStatusEnum active);
+
+    List<BookingEntity> findByStatusNot(BookingStatusEnum active);
 }
