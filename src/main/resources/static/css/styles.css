@@ -27,6 +27,9 @@ table {
 
 .container, .container-fluid {
     padding-top: 90px;
+
+    /*fix overflow of container class*/
+    padding-bottom: 90px;
 }
 
 .bg-text {

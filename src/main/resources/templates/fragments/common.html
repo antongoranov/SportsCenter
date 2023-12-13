@@ -53,7 +53,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/">Instructors</a>
+                <a class="nav-link" th:href="@{/instructors/all}">Instructors</a>
             </li>
 
             <li class="nav-item" sec:authorize="isAuthenticated() && !hasRole('ADMIN')">
