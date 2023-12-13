@@ -7,4 +7,5 @@ import java.util.List;
 public interface InstructorService {
 
     List<InstructorViewModel> getAllInstructors();
+    InstructorViewModel getInstructorById(Long id);
 }

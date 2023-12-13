@@ -28,5 +28,14 @@ public class InstructorController {
         return "instructors-all";
     }
 
+    @GetMapping("/{id}")
+    public String instructorInfo(@PathVariable Long id,
+                                 Model model){
 
+        InstructorViewModel instructor = instructorService.getInstructorById(id);
+
+        model.addAttribute("instructor", instructor);
+
+        return "instructor-info";
+    }
 }

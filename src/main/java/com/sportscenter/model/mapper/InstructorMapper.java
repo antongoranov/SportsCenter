@@ -5,7 +5,7 @@ import com.sportscenter.model.view.InstructorViewModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = SportClassMapper.class)
 public interface InstructorMapper {
 
     @Mapping(target = "sportName", source = "sport.name" )

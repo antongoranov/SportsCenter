@@ -19,14 +19,12 @@
     <div class="col-sm-6 py-2"
           th:each="instructor : ${instructors}">
       <div class="card">
-        <div class="card-img-top-wrapper">
           <img class="card-img-top " th:src="${instructor.pictureUrl}" alt="Class image">
-        </div>
         <div class="card-body">
           <h5 class="card-title" th:text="${instructor.fullName}">Instructor name</h5>
           <h5 th:text="${instructor.sportName}"></h5>
           <p class="card-text" th:text="|${instructor.bio.substring(0, 7)}...|" >short desc... click info to learn more</p>
-          <a th:href="@{/instructors/{id}(id = ${instructor.id})}" class="btn btn-primary">See full information</a>
+          <a th:href="@{/instructors/{id}(id = ${instructor.id})}" class="btn btn-dark btn-block">See full information</a>
         </div>
       </div>
     </div>

@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 @Data
 public class SportClassViewModel {
@@ -18,10 +21,13 @@ public class SportClassViewModel {
     private LocalTime startTime;
     private LocalTime endTime;
 
-
-    //old - for test purposes
-    //private String dayOfWeek;
-    //private int startHour;
-    //private int endHour;
+    public String getSportClassInfo(){
+        return String.format("%s with %s - %s %s to %s",
+                sportName,
+                instructorName,
+                dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+                startTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                endTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+    }
 
 }

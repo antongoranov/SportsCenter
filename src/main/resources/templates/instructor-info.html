@@ -3,126 +3,52 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:fragment="head">
-  <title>Sports Center Goranov</title>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-
-  <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
-
-  <!--        TODO: change the picture source-->
-  <link rel="icon" type="image/x-icon" href="/images/favicon.jpg"/>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
-</head>
+<head th:replace="~{fragments/common :: head}"></head>
 
 <body>
 <div>
-  <nav th:fragment="navbar" class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-
-    <a class="navbar-brand" th:href="@{/}"><img alt="Logo"
-                                                th:src="@{/images/logo.png}"
-                                                width="90" height="50"
-                                                class="d-inline-block">
-      Sports Center Goranov</a>
-
-    <!--not working-->
-    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">-->
-
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav mr-auto col-12 justify-content-between">
-
-        <li class="nav-item">
-          <a class="nav-link" href="/">Search Sport Classes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/">All Sport Classes</a>
-        </li>
-
-        <!--                <th:block>-->
-        <li class="nav-item">
-          <a class="nav-link" href="/">Instructors</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/">Book a Sport Class</a>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Admin
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Add Sport Class</a></li>
-            <li><a class="dropdown-item" href="#">Add Instructor</a></li>
-            <li><a class="dropdown-item" href="#">Delete Sport Class</a></li>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-          <div class="form-inline my-2 my-lg-0 border px-3">
-            <!--            <div class="text-white" >Welcome, <th:block th:text="${#authentication.principal.fullName}">X</th:block>!</div>-->
-            <form th:action="@{/users/logout}" th:method="post">
-              <input class="btn btn-link nav-link" type="submit" value="Logout">
-            </form>
-          </div>
-        </li>
-        <!--                </th:block>-->
-
-        <th:block sec:authorize="isAnonymous()">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/users/register}">Register</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/users/login}">Login</a>
-          </li>
-        </th:block>
-
-      </ul>
-    </div>
-  </nav>
+    <nav th:replace="~{/fragments/common :: navbar}"></nav>
 </div>
 
-<!--TODO information about the instructor with their bio and the classes which they host. TODO Make a link to the schedule to book a spot -->
-<section class="py-5">
-  <div class="container px-4 px-lg-5 my-5">
-    <div class="row gx-4 gx-lg-5 align-items-center">
-      <div class="col-md-6">
-        <img class="card-img-top mb-5 mb-md-0" src="/images/intro1.jpg" alt="instructor picture"/>
-      </div>
-      <div class="col-md-6">
-        <h1 class="display-4 text-white">Instructor name</h1>
-        <div>
-          <span class="lead text-white">email</span>
-        </div>
-        <div>
-          <span class="lead text-white">phone</span>
+<!--information about the instructor with their bio and the classes which they host. Make a link to the schedule to book a spot -->
+<section class="py-5"
+         th:object="${instructor}">
+    <div class="container px-4 px-lg-5 my-5 bg-grey">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" th:src="*{pictureUrl}" alt="Instructor picture"/>
+            </div>
+
+            <div class="col-md-6">
+                <h1 class="display-4 text-white" th:text="*{fullName}">Instructor name</h1>
+
+                <p> <strong class="text-white">Email:</strong> <span class="lead text-white" th:text="*{email}">email</span> </p>
+                <p> <strong class="text-white">Phone:</strong> <span class="lead text-white" th:text="*{phoneNumber}">email</span> </p>
+
+                <p class="lead text-white" th:text="*{bio}">bio</p>
+
+                <h4 class="mt-4 text-white">Sport Classes Hosted:</h4>
+                <th:block th:each="sportClass : *{sportClasses}">
+
+                    <a class="text-white py-2"
+                       th:text="${sportClass.sportClassInfo}"
+                       th:href="@{/bookSportClass/{sportClassId}(sportClassId = ${sportClass.id})}">list of all classes
+                        which they host</a>
+
+
+                </th:block>
+                <div><h4 class="mt-4 text-white">Dont wait and book your spot now!</h4></div>
+            </div>
         </div>
 
-        <p class="lead text-white">bio</p>
-        <a class="text-white">list of all classes which they host</a>
-
-        <div class="d-flex">
-          <a class="btn btn-primary flex-shrink-0" href="#">go back to all instructors or go to the schedule</a>
+        <div class="d-flex py-2">
+            <a class="btn btn-secondary btn-block flex-shrink-0" th:href="@{/sportclasses/all}">Schedule</a>
         </div>
-      </div>
     </div>
-  </div>
 </section>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

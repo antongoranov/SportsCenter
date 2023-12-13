@@ -1,5 +1,6 @@
 package com.sportscenter.service.impl;
 
+import com.sportscenter.exception.InstructorNotFoundException;
 import com.sportscenter.model.mapper.InstructorMapper;
 import com.sportscenter.model.view.InstructorViewModel;
 import com.sportscenter.repository.InstructorRepository;
@@ -23,5 +24,13 @@ public class InstructorServiceImpl implements InstructorService {
                 .stream()
                 .map(instructorMapper::mapInstructorEntityToViewModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public InstructorViewModel getInstructorById(Long id) {
+
+        return instructorRepository.findById(id)
+                .map(instructorMapper::mapInstructorEntityToViewModel)
+                .orElseThrow(() -> new InstructorNotFoundException("Instructor with " + id + " does not exist!"));
     }
 }

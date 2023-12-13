@@ -47,10 +47,6 @@ public class SportClassEntity extends BaseEntity {
     //@OneToMany(mappedBy = "sportClass", targetEntity = BookingEntity.class)
     //private List<BookingEntity> bookings;
 
-    public String getDayOfWeekDisplayName(){
-        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
-    }
-
     public String getSportClassInfo(){
         return String.format("%s with %s - %s to %s",
                 this.sport.getName(),
