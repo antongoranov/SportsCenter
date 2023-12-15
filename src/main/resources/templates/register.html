@@ -27,7 +27,8 @@
                        th:errorclass="is-invalid"
                        class="form-control"
                        placeholder="First name"/>
-                <p class="errors alert alert-danger invalid-feedback">
+                <p class="errors alert alert-danger invalid-feedback"
+                   th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
                     First name is required.
                 </p>
             </div>
@@ -39,7 +40,8 @@
                        th:errorclass="is-invalid"
                        class="form-control"
                        placeholder="Last name"/>
-                <p class="errors alert alert-danger invalid-feedback">
+                <p class="errors alert alert-danger invalid-feedback"
+                   th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
                     Last name is required.
                 </p>
             </div>
@@ -55,10 +57,10 @@
 
                        class="form-control"
                        placeholder="Email"/>
-                <p class="errors alert alert-danger invalid-feedback">
+                <p class="errors alert alert-danger invalid-feedback"
+                   th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                     Email is required.
                 </p>
-
             </div>
 
             <div class="form-group col-md-6 mb-3">
@@ -69,11 +71,13 @@
                        th:errorclass="is-invalid"
                        class="form-control"
                        placeholder="Username"/>
-                <p class="errors alert alert-danger invalid-feedback">
+                <p class="errors alert alert-danger invalid-feedback"
+                   th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
                     Username is required.
                 </p>
             </div>
         </div>
+
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
@@ -86,7 +90,8 @@
 
                        class="form-control"
                        placeholder="Password"/>
-                <p class="errors alert alert-danger invalid-feedback">
+                <p class="errors alert alert-danger invalid-feedback"
+                   th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
                     Password is required.
                 </p>
             </div>
@@ -102,16 +107,18 @@
                        class="form-control"
                        placeholder="Confirm Password"/>
 
-                <p class="errors alert alert-danger invalid-feedback">
+                <p class="errors alert alert-danger invalid-feedback"
+                   th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
                     Enter confirm password!
                 </p>
 
                 <p th:if="${differentPasswords}"
                         class="errors alert alert-danger">
-                    Passwords do not match.
+                    Passwords do not match!
                 </p>
             </div>
         </div>
+
         <div class="row justify-content-center">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
@@ -119,6 +126,7 @@
                 </div>
             </div>
         </div>
+
     </form>
 </div>
 

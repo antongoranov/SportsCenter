@@ -31,7 +31,8 @@
                        class="form-control"
                        placeholder="First Name"/>
 
-                <p class="invalid-feedback errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger"
+                   th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
                     First Name is required.
                 </p>
             </div>
@@ -45,7 +46,8 @@
                        class="form-control"
                        placeholder="Last Name"/>
 
-                <p class="invalid-feedback errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger"
+                   th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
                     Last Name is required.
                 </p>
             </div>
@@ -62,7 +64,8 @@
                        class="form-control"
                        placeholder="Email"/>
 
-                <p class="invalid-feedback errors alert alert-danger ">
+                <p class="invalid-feedback errors alert alert-danger"
+                   th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                     Email is required.
                 </p>
             </div>
@@ -76,7 +79,8 @@
                        class="form-control"
                        placeholder="Phone Number"/>
 
-                <p class="invalid-feedback errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger"
+                   th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">
                     Phone Number is required.
                 </p>
             </div>
@@ -99,7 +103,8 @@
                     </option>
 
                 </select>
-                <p class="invalid-feedback errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger"
+                   th:if="${#fields.hasErrors('sportId')}" th:errors="*{sportId}">
                     Sport is required.
                 </p>
             </div>
@@ -113,7 +118,8 @@
                        type="text"
                        class="form-control"
                        placeholder="Picture URL">
-                <p class="invalid-feedback errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-danger"
+                   th:if="${#fields.hasErrors('pictureUrl')}" th:errors="*{pictureUrl}">
                     Instructor image URL is required.
                 </p>
             </div>
@@ -128,7 +134,8 @@
                       class="form-control"
                       rows="3"
                       placeholder="Biography"></textarea>
-            <p class="invalid-feedback errors alert alert-danger">
+            <p class="invalid-feedback errors alert alert-danger"
+               th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}">
                 Biography is required.
             </p>
         </div>

@@ -11,12 +11,12 @@ import lombok.Data;
 @Data
 public class UserRegistrationBindingModel {
 
-    @NotEmpty(message = "Enter a valid first name!")
-    @Size(min = 2, max = 20)
+    @NotEmpty(message = "First name cannot be empty!")
+    @Size(min = 2, max = 20, message = "Must be between 2 and 20 characters!")
     private String firstName;
 
-    @NotEmpty(message = "Enter a valid last name!")
-    @Size(min = 2, max = 20)
+    @NotEmpty(message = "Last name cannot be empty")
+    @Size(min = 2, max = 20, message = "Must be between 2 and 20 characters!")
     private String lastName;
 
     @NotEmpty(message = "Email cannot be empty!")
@@ -24,16 +24,16 @@ public class UserRegistrationBindingModel {
     @UniqueEmail(message = "Email exists!")
     private String email;
 
-    @NotEmpty(message = "Enter a username")
+    @NotEmpty(message = "Username cannot be empty!")
     @UniqueUsername(message = "Username exists!")
     private String username;
 
-    @NotEmpty
-    @Size(min = 5)
+    @NotEmpty(message = "Password cannot be empty!")
+    @Size(min = 5, message = "Must be at least 5 characters!")
     private String password;
 
-    @NotEmpty
-    @Size(min = 5)
+    @NotEmpty(message = "Confirm password cannot be empty!")
+    @Size(min = 5, message = "Must be at least 5 characters!")
     private String confirmPassword;
 
 
