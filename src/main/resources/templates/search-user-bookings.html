@@ -39,7 +39,7 @@
     </form>
 </div>
 
-<div class="my-5" th:if="${allBookingsByUser != null && allBookingsByUser.size != 0}">
+<div  th:if="${allBookingsByUser != null && allBookingsByUser.size != 0}">
     <table class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">
         <thead class="text-center">
         <tr>
@@ -91,7 +91,7 @@
         </tbody>
     </table>
 </div>
-<h3 th:if="${allBookingsByUser != null && allBookingsByUser.size == 0}" class="text-center text-white my-3">
+<h3 th:if="${allBookingsByUser != null && allBookingsByUser.size == 0}" class="text-center text-white">
     There are no bookings by this user</h3>
 
 

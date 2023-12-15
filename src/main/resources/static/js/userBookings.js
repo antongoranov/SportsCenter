@@ -1,16 +1,9 @@
-// let btn = $('#showBookings');
-
 let btn = document.getElementById('showBookings');
 btn.addEventListener('click', showBookings);
 
-// btn.click(() => {
-//     showBookings(event)
-// });
-
 function showBookings() {
-    // console.log('clicking successful')
-    let bookingsContainer = document.getElementById('bookings-container');
 
+    let bookingsContainer = document.getElementById('bookings-container');
     let btnText = btn.textContent;
 
     if (btnText === 'Show my bookings') {
@@ -37,8 +30,6 @@ function showBookings() {
                 ${b.status}`;
 
                 bookingsContainer.append(element);
-
-                //$("#orders-container").appendChild(liElement);
 
             }))
             .catch(function (err) {

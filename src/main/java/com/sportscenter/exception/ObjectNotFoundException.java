@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class InstructorNotFoundException extends RuntimeException {
-    public InstructorNotFoundException(String msg) {
+public class ObjectNotFoundException extends RuntimeException{
+    public ObjectNotFoundException(String msg) {
         super(msg);
     }
 }

@@ -81,8 +81,7 @@ public class UserServiceImpl implements UserService {
         MultipartFile filePicture = userPictureServiceModel.getFilePicture();
 
         UserEntity user = userRepository.findByUsername(userPictureServiceModel.getUsername())
-                .orElseThrow(() -> new UserNotFoundException(
-                        "User with " + userPictureServiceModel.getUsername() + " does not exist!"));
+                .orElseThrow(() -> new UserNotFoundException("User with " + userPictureServiceModel.getUsername() + " does not exist!"));
 
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, filePicture.getOriginalFilename());
 

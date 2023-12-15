@@ -71,7 +71,8 @@
                     <span class="bg-secondary p-1 px-4 rounded text-white" th:text="|Name: *{firstName}  *{lastName}|">Client Name</span>
                     <span class="bg-secondary p-1 px-4 rounded text-white" th:text="|Username: *{username}|">Username</span>
                     <span class="bg-secondary p-1 px-4 rounded text-white" th:text="|Email: *{email}|">Email</span>
-                    <div class="px-4 mt-3">
+
+                    <div class="px-4 mt-3" sec:authorize="!hasRole('ADMIN')" >
                         <th:block th:if="*{!bookings.isEmpty()}">
                             <h4 class="text-white">Your bookings: </h4>
 
@@ -82,10 +83,10 @@
                         </th:block>
                         <h4 th:if="*{bookings.isEmpty()}" class="text-white">You don't have any bookings yet</h4>
                     </div>
-                    <div class="buttons">
-                        <button onclick="location.href = document.referrer; return false;" class="btn btn-outline-secondary px-4 text-white">Back
-                        </button>
-                    </div>
+<!--                    <div class="buttons px-4 mt-3 ">-->
+<!--                        <button onclick="location.href = document.referrer; return false;" class="btn btn-outline-secondary px-4 text-white">Back-->
+<!--                        </button>-->
+<!--                    </div>-->
                 </div>
 
             </div>

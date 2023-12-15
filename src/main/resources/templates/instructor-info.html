@@ -29,16 +29,15 @@
                 <p class="lead text-white" th:text="*{bio}">bio</p>
 
                 <h4 class="mt-4 text-white">Sport Classes Hosted:</h4>
-                <th:block th:each="sportClass : *{sportClasses}">
+                <p class="lead text-white" th:if="*{sportClasses.isEmpty()}">This instructor does not have active classes! :(</p>
 
+                <th:block th:each="sportClass : *{sportClasses}">
                     <a class="text-white py-2"
                        th:text="${sportClass.sportClassInfo}"
                        th:href="@{/bookSportClass/{sportClassId}(sportClassId = ${sportClass.id})}">list of all classes
-                        which they host</a>
-
-
+                        which they host</a><br>
                 </th:block>
-                <div><h4 class="mt-4 text-white">Dont wait and book your spot now!</h4></div>
+                <div><h4 class="mt-4 text-white" th:unless="*{sportClasses.isEmpty()}">Dont wait and book your spot now!</h4></div>
             </div>
         </div>
 

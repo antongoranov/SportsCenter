@@ -1,6 +1,6 @@
 package com.sportscenter.service.impl;
 
-import com.sportscenter.exception.SportClassNotFoundException;
+import com.sportscenter.exception.ObjectNotFoundException;
 import com.sportscenter.exception.UnableToProcessOperationException;
 import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.SportClassEntity;
@@ -56,7 +56,7 @@ public class SportClassServiceImpl implements SportClassService {
         return sportClassRepository.findById(sportClassId)
                 .map(sportClassMapper::sportClassEntityToBookingViewModel)
                 //log
-                .orElseThrow(() -> new SportClassNotFoundException("Sport class with " + sportClassId + " not found!"));
+                .orElseThrow(() -> new ObjectNotFoundException("Sport class with " + sportClassId + " not found!"));
     }
 
     @Override
