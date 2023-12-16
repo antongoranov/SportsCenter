@@ -49,7 +49,7 @@
 <!--                <a class="nav-link" href="/">Search Sport Classes</a>-->
 <!--            </li>-->
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/sportclasses/all}">All Sport Classes</a>
+                <a class="nav-link" th:href="@{/sportClasses/all}">All Sport Classes</a>
             </li>
 
             <li class="nav-item">
@@ -78,9 +78,9 @@
                     Admin
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" th:href="@{/instructors/add}">Add Instructor</a></li>
-                    <li><a class="dropdown-item" th:href="@{/}">Add Sport Class</a></li>
                     <li><a class="dropdown-item" th:href="@{/users/all}">Users Edit/Delete</a></li>
+                    <li><a class="dropdown-item" th:href="@{/instructors/add}">Add Instructor</a></li>
+                    <li><a class="dropdown-item" th:href="@{/sportClasses/add}">Add Sport Class</a></li>
 <!--                    <li><a class="dropdown-item" href="#">Delete Sport Class</a></li>-->
                 </ul>
             </li>

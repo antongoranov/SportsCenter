@@ -1,6 +1,8 @@
 package com.sportscenter.model.mapper;
 
+import com.sportscenter.model.binding.AddSportClassBindingModel;
 import com.sportscenter.model.entity.SportClassEntity;
+import com.sportscenter.model.service.AddSportClassServiceModel;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 import org.mapstruct.Mapper;
@@ -23,4 +25,6 @@ public interface SportClassMapper {
 //    @Mapping(target = "startTime",
 //            expression = "java(java.time.LocalTime.parse(sportClassEntity.getStartTime().format(java.time.format.DateTimeFormatter.ofPattern(\"HH:mm\"))))")
     SportClassBookingViewModel sportClassEntityToBookingViewModel(SportClassEntity sportClassEntity);
+
+    AddSportClassServiceModel mapAddSportClassBindingModelToAddSportClassService(AddSportClassBindingModel addSportClassBindingModel);
 }

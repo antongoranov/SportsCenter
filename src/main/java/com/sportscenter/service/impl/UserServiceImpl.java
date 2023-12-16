@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isLoggedUserTheAccountHolder(String principalUsername, Long userId){
 
-        //endpoint reached only when authenticated
+        //method called from endpoint reached only when authenticated
         UserEntity loggedUser = userRepository.findByUsername(principalUsername).get();
 
         UserEntity editedUser = userRepository.findById(userId)

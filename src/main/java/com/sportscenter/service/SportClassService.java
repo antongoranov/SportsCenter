@@ -1,10 +1,12 @@
 package com.sportscenter.service;
 
 import com.sportscenter.model.entity.SportClassEntity;
+import com.sportscenter.model.service.AddSportClassServiceModel;
 import com.sportscenter.model.view.SportClassBookingViewModel;
 import com.sportscenter.model.view.SportClassViewModel;
 
-import javax.naming.OperationNotSupportedException;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface SportClassService {
@@ -25,4 +27,8 @@ public interface SportClassService {
     void decreaseCapacity(SportClassEntity bookedSportClass);
 
     void resetSportClassCapacityAtEndOfDay();
+
+    boolean isTimeSlotTaken(DayOfWeek newDayOfWeek, LocalTime newStartTime, LocalTime newEndTime);
+
+    void addSportClass(AddSportClassServiceModel addSportClass);
 }
