@@ -4,6 +4,7 @@ import com.sportscenter.model.binding.UserRegistrationBindingModel;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
+import com.sportscenter.model.view.UserViewModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -18,4 +19,6 @@ public interface UserMapper {
 
     @Mapping(target = "bookings", source = "bookings")
     UserProfileViewModel userEntityToProfileViewModel(UserEntity userEntity);
+
+    UserViewModel mapUserEntityToViewModel(UserEntity userEntity);
 }

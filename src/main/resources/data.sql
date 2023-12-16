@@ -50,7 +50,8 @@ VALUES ('anton@anton.com', 'Anton', 'Goranov',
 INSERT INTO users_roles(user_id, role_id)
 VALUES (1, 1),
        (1, 2),
-       (2, 2);
+       (2, 2),
+       (3, 2);
 
 INSERT INTO bookings(user_id, sport_class_id, status)
 VALUES (2, 1, 'ACTIVE'),

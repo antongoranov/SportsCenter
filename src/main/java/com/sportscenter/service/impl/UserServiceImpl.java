@@ -6,9 +6,12 @@ import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
+import com.sportscenter.model.mapper.UserRoleMapper;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
+import com.sportscenter.model.view.UserRoleViewModel;
+import com.sportscenter.model.view.UserViewModel;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.UserService;
@@ -23,7 +26,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +37,7 @@ public class UserServiceImpl implements UserService {
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
 
     private static final String UPLOAD_DIRECTORY =
@@ -97,5 +103,34 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findByUsername(username)
                 .isPresent();
+    }
+
+    @Override
+    public List<UserViewModel> getAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(userMapper::mapUserEntityToViewModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserViewModel getUserById(Long userId) {
+        return userRepository
+                .findById(userId)
+                .map(userMapper::mapUserEntityToViewModel)
+                .orElseThrow(() -> new UserNotFoundException("User with " + userId + " does not exist!"));
+    }
+
+    @Override
+    public void updateUserRoles(Long userId, Set<UserRoleEntity> newRoles){
+
+        UserEntity existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with " + userId + " does not exist!"));
+
+        if(newRoles != null){
+            existingUser.setRoles(newRoles);
+            userRepository.save(existingUser);
+        }
     }
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/common :: head}"></head>
+
+<body>
+<div>
+    <nav th:replace="~{/fragments/common :: navbar}"></nav>
+</div>
+
+<div class="container">
+    <h1 class="text-center text-white">Edit User Roles</h1>
+
+    <form th:object="${user}"
+          th:action="@{/users/{id}/roles(id=${id})}"
+          th:method="patch"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <div>
+                    <label class="text-white font-weight-bold" for="userFirstName">First Name:</label>
+                    <p class="text-white" id="userFirstName" th:text="${user.firstName}"></p>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <div>
+                    <label class="text-white font-weight-bold" for="userLastName">Last Name:</label>
+                    <p class="text-white" id="userLastName" th:text="${user.lastName}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <div>
+                    <label class="text-white font-weight-bold" for="userEmail">Email:</label>
+                    <p class="text-white" id="userEmail" th:text="${user.email}"></p>
+                </div>
+
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <div>
+                    <label class="text-center text-white font-weight-bold" for="roles">Roles:</label>
+                    <select id="roles" th:field="*{roles}" multiple="multiple">
+                        <option th:each="roleView : ${allRoles}"
+                                th:value="${roleView.id}"
+                                th:text="${roleView.role.name()}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-block btn-lg" value="Save"/>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
