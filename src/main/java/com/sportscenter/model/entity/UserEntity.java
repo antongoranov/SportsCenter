@@ -40,7 +40,7 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<UserRoleEntity> roles;
 
-    @OneToMany(mappedBy = "user", targetEntity = BookingEntity.class)
+    @OneToMany(mappedBy = "user", targetEntity = BookingEntity.class, cascade = CascadeType.ALL)
     private List<BookingEntity> bookings;
 
 

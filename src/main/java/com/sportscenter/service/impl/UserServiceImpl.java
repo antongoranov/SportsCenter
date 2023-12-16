@@ -1,22 +1,20 @@
 package com.sportscenter.service.impl;
 
-import com.sportscenter.exception.UnableToProcessOperationException;
 import com.sportscenter.exception.UserNotFoundException;
+import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
-import com.sportscenter.model.mapper.UserRoleMapper;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
-import com.sportscenter.model.view.UserRoleViewModel;
 import com.sportscenter.model.view.UserViewModel;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
+import com.sportscenter.service.BookingService;
 import com.sportscenter.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,9 +34,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final UserRoleMapper userRoleMapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+    private final BookingService bookingService;
 
     private static final String UPLOAD_DIRECTORY =
             new File("src\\main\\resources\\static\\images\\users").getAbsolutePath();
@@ -132,5 +130,21 @@ public class UserServiceImpl implements UserService {
             existingUser.setRoles(newRoles);
             userRepository.save(existingUser);
         }
+    }
+
+    @Override
+    public void deleteUserById(Long userId) {
+
+        UserEntity existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with " + userId + " does not exist!"));
+
+        //Cancel active bookings
+        List<BookingEntity> activeBookings = bookingService.getActiveBookingsByUser(existingUser);
+
+        activeBookings.forEach(booking -> {
+            bookingService.cancelBooking(booking.getId());
+        });
+
+        userRepository.delete(existingUser);
     }
 }

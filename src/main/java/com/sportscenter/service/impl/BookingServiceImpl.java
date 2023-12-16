@@ -77,7 +77,7 @@ public class BookingServiceImpl implements BookingService {
     public boolean hasActiveBookings(UserDetails userDetails) {
 
         UserEntity user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow();
+                .orElseThrow(() -> new UserNotFoundException("User with " + userDetails.getUsername() + " does not exist!"));
 
         return bookingRepository.findAllByUserAndStatus(user, BookingStatusEnum.ACTIVE)
                 .size() > 0;
@@ -137,6 +137,11 @@ public class BookingServiceImpl implements BookingService {
         booking.setStatus(BookingStatusEnum.ACCEPTED);
 
         bookingRepository.save(booking);
+    }
+
+    @Override
+    public List<BookingEntity> getActiveBookingsByUser(UserEntity user) {
+        return bookingRepository.findAllByUserAndStatus(user, BookingStatusEnum.ACTIVE);
     }
 
     //***Scheduled tasks***

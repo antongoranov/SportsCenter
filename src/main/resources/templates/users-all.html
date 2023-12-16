@@ -11,25 +11,6 @@
 </div>
 
 <div class="container">
-
-<!--  <table th:object="${sportClasses}" class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--      <th scope="col">First Name</th>-->
-<!--      <th scope="col">Last Name</th>-->
-<!--      <th scope="col">Email</th>-->
-<!--      <th scope="col">Phone</th>-->
-<!--      <th scope="col">Roles</th>-->
-<!--      <th scope="col">Edit</th>-->
-<!--      <th scope="col">Delete</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--     -->
-
-<!--    </tbody>-->
-<!--  </table>-->
-
   <h1 class="text-center text-white">All Users</h1>
 
   <table class="table table-dark">
@@ -52,10 +33,17 @@
       <td th:text="${user.email}"></td>
       <td th:text="${user.roles}"></td>
       <td>
-        <a th:href="@{'/users/' + ${user.id} + '/edit'}" class="btn btn-primary">Edit</a>
+        <a th:href="@{/users/{userId}/edit(userId=*{user.id})}" class="btn btn-primary">Edit Roles</a>
       </td>
       <td>
-        <a th:href="@{'/users/' + ${user.id} + '/delete'}" class="btn btn-primary">Delete</a>
+
+        <form th:action="@{/users/{userId}/delete(userId=*{user.id})}"
+              th:method="delete">
+            <button type="submit" class="btn btn-danger" value="Delete">
+              Delete
+            </button>
+        </form>
+
       </td>
     </tr>
     </tbody>

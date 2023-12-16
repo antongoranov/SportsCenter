@@ -1,8 +1,9 @@
 package com.sportscenter.service;
 
+import com.sportscenter.model.entity.BookingEntity;
+import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.service.UserSearchServiceModel;
 import com.sportscenter.model.view.BookingViewModel;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -15,14 +16,14 @@ public interface BookingService {
 
     List<BookingViewModel> findBookingsByUser(UserDetails userDetails);
 
-    void cancelBooking(Long bookingId);
-
     List<BookingViewModel> findBookingsByUsername(UserSearchServiceModel userSearchServiceModel);
+
+    List<BookingEntity> getActiveBookingsByUser(UserEntity user);
+
+    void cancelBooking(Long bookingId);
 
     void acceptBooking(Long bookingId);
 
-    //Everyday at midnight set the status of unused bookings to expired
-    @Scheduled(cron = "0 0 0 * * ?")
     void expireBookingsAtEndOfDay();
 
     void deleteExpiredBookingsAtEndOfWeek();

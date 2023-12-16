@@ -23,7 +23,9 @@ public interface UserService {
 
     List<UserViewModel> getAllUsers();
 
-    UserViewModel getUserById(Long id);
+    UserViewModel getUserById(Long userId);
 
     void updateUserRoles(Long userId, Set<UserRoleEntity> roles);
+
+    void deleteUserById(Long userId);
 }

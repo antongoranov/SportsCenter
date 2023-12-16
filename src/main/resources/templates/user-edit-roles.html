@@ -14,7 +14,7 @@
     <h1 class="text-center text-white">Edit User Roles</h1>
 
     <form th:object="${user}"
-          th:action="@{/users/{id}/roles(id=${id})}"
+          th:action="@{/users/{userId}/roles(userId=*{id})}"
           th:method="patch"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
 

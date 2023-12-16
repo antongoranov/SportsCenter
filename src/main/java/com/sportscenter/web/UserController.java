@@ -7,10 +7,12 @@ import com.sportscenter.model.view.UserRoleViewModel;
 import com.sportscenter.model.view.UserViewModel;
 import com.sportscenter.service.UserRoleService;
 import com.sportscenter.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -71,11 +73,11 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id") Long id,
+    @GetMapping("/{userId}/edit")
+    public String editUser(@PathVariable("userId") Long userId,
                            Model model){
 
-        UserViewModel existingUser = userService.getUserById(id);
+        UserViewModel existingUser = userService.   getUserById(userId);
         Set<UserRoleViewModel> roles = userRoleService.findAll();
 
         model.addAttribute("user", existingUser);
@@ -85,12 +87,21 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PatchMapping("/{id}/roles")
-    public String updateUserRoles(@PathVariable("id") Long id,
-                                  @ModelAttribute("user")  UserViewModel user) {
+    @PatchMapping("/{userId}/roles")
+    public String updateUserRoles(@PathVariable("userId") Long userId,
+                                  @ModelAttribute("user") UserViewModel user) {
 
-        userService.updateUserRoles(id, user.getRoles());
+        userService.updateUserRoles(userId, user.getRoles());
 
+        return "redirect:/users/all";
+    }
+
+    //DELETE USER
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{userId}/delete")
+    public String deleteUser(@PathVariable("userId") Long userId){
+
+        userService.deleteUserById(userId);
         return "redirect:/users/all";
     }
 
