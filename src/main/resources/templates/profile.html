@@ -33,11 +33,14 @@
                     <!--                    </div>-->
 
                     <div class="text-center py-2 mt-1">
-                        <button type="button" class="btn btn-sm"
+                        <button type="button" class="btn btn-outline-secondary px-4 text-white"
                                 data-bs-toggle="modal"
                                 data-bs-target="#uploadModal">Change profile picture
                         </button>
+                        <a th:href="@{/users/edit/{userId}(userId=*{id})}"
+                           class="btn btn-outline-secondary px-4 text-white">Edit Information</a>
                     </div>
+
                     <!-- Modal -->
                     <div id="uploadModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">

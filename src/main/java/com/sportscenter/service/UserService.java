@@ -1,6 +1,7 @@
 package com.sportscenter.service;
 
 import com.sportscenter.model.entity.UserRoleEntity;
+import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
@@ -28,4 +29,12 @@ public interface UserService {
     void updateUserRoles(Long userId, Set<UserRoleEntity> roles);
 
     void deleteUserById(Long userId);
+
+    boolean isLoggedUserTheAccountHolder(String principalUsername, Long userId);
+
+    boolean isNewEmailDifferentAndExisting(Long userId, String newEmail);
+
+    boolean isNewUsernameDifferentAndExisting(Long userId, String newUsername);
+
+    void editUserData(Long userId, UserEditServiceModel userEditServiceModel);
 }

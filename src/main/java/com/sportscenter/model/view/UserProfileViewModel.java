@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class UserProfileViewModel {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String username;

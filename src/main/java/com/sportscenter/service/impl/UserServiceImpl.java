@@ -6,6 +6,7 @@ import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
+import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public UserProfileViewModel getUserProfileByUsername(String username) {
         return userRepository.findByUsername(username)
                 .map(userMapper::userEntityToProfileViewModel)
-                .orElseThrow(() -> new UserNotFoundException("User with " + username + " does not exist!"));
+                .orElseThrow(() -> new UserNotFoundException("User with username: " + username + " does not exist!"));
     }
 
     //after redirection the context is set to AnonymousToken
@@ -85,7 +86,7 @@ public class UserServiceImpl implements UserService {
         MultipartFile filePicture = userPictureServiceModel.getFilePicture();
 
         UserEntity user = userRepository.findByUsername(userPictureServiceModel.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User with " + userPictureServiceModel.getUsername() + " does not exist!"));
+                .orElseThrow(() -> new UserNotFoundException("User with username: " + userPictureServiceModel.getUsername() + " does not exist!"));
 
         Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, filePicture.getOriginalFilename());
 
@@ -117,14 +118,14 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findById(userId)
                 .map(userMapper::mapUserEntityToViewModel)
-                .orElseThrow(() -> new UserNotFoundException("User with " + userId + " does not exist!"));
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
     }
 
     @Override
     public void updateUserRoles(Long userId, Set<UserRoleEntity> newRoles){
 
         UserEntity existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with " + userId + " does not exist!"));
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
 
         if(newRoles != null){
             existingUser.setRoles(newRoles);
@@ -136,7 +137,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long userId) {
 
         UserEntity existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with " + userId + " does not exist!"));
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
 
         //Cancel active bookings
         List<BookingEntity> activeBookings = bookingService.getActiveBookingsByUser(existingUser);
@@ -146,5 +147,53 @@ public class UserServiceImpl implements UserService {
         });
 
         userRepository.delete(existingUser);
+    }
+
+    @Override
+    public void editUserData(Long userId, UserEditServiceModel userEditServiceModel) {
+
+        UserEntity existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
+
+        existingUser.setFirstName(userEditServiceModel.getFirstName());
+        existingUser.setLastName(userEditServiceModel.getLastName());
+        existingUser.setEmail(userEditServiceModel.getEmail());
+        existingUser.setUsername(userEditServiceModel.getUsername());
+
+        userRepository.save(existingUser);
+
+    }
+
+    //EDIT PROFILE INFO VALIDATIONS
+    @Override
+    public boolean isLoggedUserTheAccountHolder(String principalUsername, Long userId){
+
+        //endpoint reached only when authenticated
+        UserEntity loggedUser = userRepository.findByUsername(principalUsername).get();
+
+        UserEntity editedUser = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
+
+        return loggedUser.getId().equals(editedUser.getId());
+    }
+
+    @Override
+    public boolean isNewEmailDifferentAndExisting(Long userId, String newEmail) {
+
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
+
+        return !user.getEmail().equals(newEmail) &&
+                userRepository.findByEmail(newEmail).isPresent();
+    }
+
+    @Override
+    public boolean isNewUsernameDifferentAndExisting(Long userId, String newUsername) {
+
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
+
+        return !user.getUsername().equals(newUsername) &&
+                userRepository.findByUsername(newUsername).isPresent();
     }
 }
