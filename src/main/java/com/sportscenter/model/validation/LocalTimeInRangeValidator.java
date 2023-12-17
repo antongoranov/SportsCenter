@@ -14,7 +14,7 @@ public class LocalTimeInRangeValidator implements ConstraintValidator<LocalTimeI
         if(time == null) return false;
 
         //isAfter and isBefore are exclusive
-        //current setting is or hours from 10:00 - 21:00
+        //current setting is for hours from 10:00 - 21:00
         return time.isAfter(LocalTime.of(9, 0)) &&
                 time.isBefore(LocalTime.of(22, 0));
     }

@@ -79,6 +79,9 @@
             <div class="form-group col-md-6 mb-3">
                 <label for="startTime" class="text-white font-weight-bold">Select Start Time:</label>
                 <input type="time"
+                       step="3600"
+                       min="07:00"
+                       max="23:00"
                        class="form-control"
                        id="startTime"
                        th:field="*{startTime}"
@@ -93,6 +96,9 @@
             <div class="form-group col-md-6 mb-3">
                 <label for="endTime" class="text-white font-weight-bold">Select End Time:</label>
                 <input type="time"
+                       step="3600"
+                       min="07:00"
+                       max="23:00"
                        class="form-control"
                        id="endTime"
                        th:field="*{endTime}"

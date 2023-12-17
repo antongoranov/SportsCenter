@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                                 authorizeRequests
                                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                         .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/maintenance").permitAll()
-                                        .requestMatchers("/sportclasses/all", "/instructors/**").permitAll()
+                                        .requestMatchers("/sportClasses/all", "/instructors/**").permitAll()
                                         .anyRequest()
                                         .authenticated())
                 .formLogin(
