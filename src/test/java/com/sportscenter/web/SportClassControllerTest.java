@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -46,6 +47,7 @@ public class SportClassControllerTest {
     }
 
     @Test
+    @WithAnonymousUser
     public void testAllSportClassesReturnsCorrectView() throws Exception {
 
         mockMvc.perform(get("/sportClasses/all"))
@@ -56,6 +58,7 @@ public class SportClassControllerTest {
     }
 
     @Test
+    @WithAnonymousUser
     public void testAddSportClassAccessedByAnonymousIsForbidden() throws Exception {
 
         mockMvc.perform(get("/sportClasses/add"))
@@ -65,7 +68,7 @@ public class SportClassControllerTest {
 
     @Test
     @WithMockUser(
-            username = "test",
+            username = "admin",
             roles = {"ADMIN", "USER"})
     public void testAddSportClassReturnsCorrectView() throws Exception {
         mockMvc.perform(get("/sportClasses/add"))
@@ -79,10 +82,11 @@ public class SportClassControllerTest {
 
     @Test
     @WithMockUser(
-            username = "test",
+            username = "admin",
             roles = {"ADMIN", "USER"})
     public void testAddSportClassPostCreatesNewSportClass() throws Exception {
 
+        //check info document
         testData.initInstructor();
 
         mockMvc.perform(post("/sportClasses/add")
@@ -102,7 +106,7 @@ public class SportClassControllerTest {
 
     @Test
     @WithMockUser(
-            username = "test",
+            username = "admin",
             roles = {"ADMIN", "USER"})
     public void testAddSportClassPostDoesNotCreateClassWithInvalidData() throws Exception {
 
@@ -115,7 +119,7 @@ public class SportClassControllerTest {
                         .param("endTime", "1")
                         .param("maxCapacity", "1")
                         .with(csrf())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/sportClasses/add"));
 
@@ -124,7 +128,7 @@ public class SportClassControllerTest {
 
     @Test
     @WithMockUser(
-            username = "test",
+            username = "admin",
             roles = {"ADMIN", "USER"})
     public void testAddSportClassPostDoesNotCreateClassWhenTimeSpotIsTaken() throws Exception {
 
@@ -137,7 +141,7 @@ public class SportClassControllerTest {
                         .param("endTime", "11:00")
                         .param("maxCapacity", "20")
                         .with(csrf())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/sportClasses/add"));
 

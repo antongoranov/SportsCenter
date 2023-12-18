@@ -1,6 +1,5 @@
 package com.sportscenter.serviceImpl;
 
-import com.sportscenter.init.TestDataInit;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
@@ -10,20 +9,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -31,18 +25,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class SportsCenterUserDetailsServiceTest {
 
+    @Mock
+    private UserRepository userRepositoryMock;
+
+    @InjectMocks
     private SportsCenterUserDetailsService sportsCenterUserDetailsServiceTest;
 
     private UserEntity admin;
 
-    @Mock
-    private UserRepository userRepositoryMock;
-
-
     @BeforeEach
     public void setUp(){
-        sportsCenterUserDetailsServiceTest = new SportsCenterUserDetailsService(userRepositoryMock);
 
+        sportsCenterUserDetailsServiceTest = new SportsCenterUserDetailsService(userRepositoryMock);
 
         UserRoleEntity adminRole = UserRoleEntity.builder()
                 .role(UserRoleEnum.ADMIN)
@@ -61,7 +55,6 @@ public class SportsCenterUserDetailsServiceTest {
                 .profilePictureUrl("url/test")
                 .roles(Set.of(adminRole, userRole))
                 .build();
-
 
     }
 

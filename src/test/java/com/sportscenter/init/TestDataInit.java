@@ -1,6 +1,7 @@
 package com.sportscenter.init;
 
 import com.sportscenter.model.entity.*;
+import com.sportscenter.model.enums.BookingStatusEnum;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,10 @@ public class TestDataInit {
 
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
-    private final SportRepository sportRepository;
+    private final BookingRepository bookingRepository;
     private final SportClassRepository sportClassRepository;
     private final InstructorRepository instructorRepository;
+    private final SportRepository sportRepository;
 
 
     private void initRoles() {
@@ -64,6 +66,26 @@ public class TestDataInit {
                 .build();
 
         return userRepository.save(testUser);
+    }
+
+    public BookingEntity initBooking(){
+
+        SportClassEntity sportClass = initSportClass();
+
+        BookingEntity booking = BookingEntity.builder()
+                .sportClass(sportClass)
+                .status(BookingStatusEnum.ACTIVE)
+                .build();
+
+        if(userRoleRepository.count() == 0) {
+            UserEntity testUser = initUser();
+            booking.setUser(testUser);
+        }
+
+        //assuming that the user entity has been initialized in the actual test class
+        booking.setUser(userRepository.findById(1L).get());
+
+        return bookingRepository.save(booking);
     }
 
     public SportClassEntity initSportClass(){
@@ -118,8 +140,10 @@ public class TestDataInit {
 
         sportRepository.deleteAll();
 
-        sportClassRepository.deleteAll();
         instructorRepository.deleteAll();
+        sportClassRepository.deleteAll();
+        bookingRepository.deleteAll();
+
     }
 
 
