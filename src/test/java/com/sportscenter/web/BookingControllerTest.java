@@ -75,8 +75,6 @@ public class BookingControllerTest {
     @WithMockUser(username = "user")
     public void testGetBookSportClass_returnsCorrectView() throws Exception {
 
-        //testData.initSportClass();
-
         SportClassBookingViewModel testView = SportClassBookingViewModel.builder()
                 .sportId(1L)
                 .sportDescription("test sport dec")

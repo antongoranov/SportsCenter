@@ -26,7 +26,7 @@ public class TestDataInit {
     private final SportRepository sportRepository;
 
 
-    private void initRoles() {
+    public void initRoles() {
         if (userRoleRepository.count() == 0) {
             UserRoleEntity testUserRoleAdmin = new UserRoleEntity(UserRoleEnum.ADMIN);
             UserRoleEntity testUserRoleUser = new UserRoleEntity(UserRoleEnum.USER);
@@ -83,7 +83,7 @@ public class TestDataInit {
         }
 
         //assuming that the user entity has been initialized in the actual test class
-        booking.setUser(userRepository.findById(1L).get());
+        booking.setUser(userRepository.findAll().get(0));
 
         return bookingRepository.save(booking);
     }

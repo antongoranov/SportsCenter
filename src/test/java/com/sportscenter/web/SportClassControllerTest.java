@@ -87,10 +87,10 @@ public class SportClassControllerTest {
     public void testAddSportClassPostCreatesNewSportClass() throws Exception {
 
         //check info document
-        testData.initInstructor();
+        Long id = testData.initInstructor().getId();
 
         mockMvc.perform(post("/sportClasses/add")
-                .param("instructorId", "1")
+                .param("instructorId", String.valueOf(id))
                 .param("dayOfWeek", "MONDAY")
                 .param("startTime", "10:00")
                 .param("endTime", "11:00")
