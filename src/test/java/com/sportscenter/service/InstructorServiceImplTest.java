@@ -1,4 +1,4 @@
-package com.sportscenter.serviceImpl;
+package com.sportscenter.service;
 
 import com.sportscenter.exception.ObjectNotFoundException;
 import com.sportscenter.model.entity.InstructorEntity;

@@ -1,25 +1,18 @@
-package com.sportscenter.serviceImpl;
+package com.sportscenter.service;
 
-import com.sportscenter.model.entity.SportEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.mapper.UserRoleMapper;
-import com.sportscenter.model.view.SportViewModel;
 import com.sportscenter.model.view.UserRoleViewModel;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.impl.UserRoleServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,4 +1,4 @@
-package com.sportscenter.serviceImpl;
+package com.sportscenter.service;
 
 import com.sportscenter.model.entity.SportEntity;
 import com.sportscenter.model.mapper.SportMapper;

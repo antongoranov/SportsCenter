@@ -1,4 +1,4 @@
-package com.sportscenter.serviceImpl;
+package com.sportscenter.service;
 
 import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.BookingEntity;
@@ -13,7 +13,6 @@ import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.model.view.UserViewModel;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
-import com.sportscenter.service.BookingService;
 import com.sportscenter.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,9 +52,9 @@ public class UserServiceImplTest {
 
     private UserEntity testAdminEntity;
     private UserEntity testUserEntity;
-    private static final Long userId = 1L;
-    private static final Long adminId = 2L;
-    private static final Long userIdFake = 3L;
+    private static final Long USER_ID = 1L;
+    private static final Long ADMIN_ID = 2L;
+    private static final Long USER_ID_FAKE = 3L;
 
     @BeforeEach
     public void setUp() {
@@ -63,15 +62,15 @@ public class UserServiceImplTest {
         testUserRole = new UserRoleEntity(UserRoleEnum.USER);
 
         testAdminEntity = UserEntity.builder()
-                .firstName("User")
-                .lastName("Userov")
-                .username("user")
-                .email("user@email.com")
-                .password("12345")
-                .profilePictureUrl("url/testUser")
+                .firstName("Admin")
+                .lastName("Adminov")
+                .username("admin")
+                .email("admin@email.com")
+                .password("123456")
+                .profilePictureUrl("url/testAdmin")
                 .roles(Set.of(testAdminRole, testUserRole))
                 .build();
-        testAdminEntity.setId(adminId);
+        testAdminEntity.setId(ADMIN_ID);
 
         testUserEntity = UserEntity.builder()
                 .firstName("User")
@@ -82,7 +81,7 @@ public class UserServiceImplTest {
                 .profilePictureUrl("url/testUser")
                 .roles(Set.of(testUserRole))
                 .build();
-        testUserEntity.setId(userId);
+        testUserEntity.setId(USER_ID);
     }
 
 
@@ -252,13 +251,13 @@ public class UserServiceImplTest {
     @Test
     public void testGetUserById() {
         UserEntity userEntity = new UserEntity();
-        when(userRepositoryMock.findById(userIdFake))
+        when(userRepositoryMock.findById(USER_ID_FAKE))
                 .thenReturn(Optional.of(userEntity));
 
         when(userMapperMock.mapUserEntityToViewModel(userEntity))
                 .thenReturn(new UserViewModel());
 
-        UserViewModel result = userServiceTest.getUserById(userIdFake);
+        UserViewModel result = userServiceTest.getUserById(USER_ID_FAKE);
 
         assertNotNull(result);
     }
@@ -266,7 +265,7 @@ public class UserServiceImplTest {
     @Test
     public void testGetUserById_throwsWhenUserNotFound() {
         assertThrows(UserNotFoundException.class,
-                () -> userServiceTest.getUserById(userIdFake));
+                () -> userServiceTest.getUserById(USER_ID_FAKE));
     }
 
 
@@ -275,11 +274,11 @@ public class UserServiceImplTest {
     public void testUpdateUserRoles() {
         Set<UserRoleEntity> newRoles = Set.of(testUserRole);
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testAdminEntity));
 
 
-        userServiceTest.updateUserRoles(userId, newRoles);
+        userServiceTest.updateUserRoles(USER_ID, newRoles);
 
 
         verify(userRepositoryMock, times(1))
@@ -294,11 +293,11 @@ public class UserServiceImplTest {
 
     @Test
     public void testUpdateUserRoles_doesNotUpdateRolesWhenNull() {
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
 
-        userServiceTest.updateUserRoles(userId, null);
+        userServiceTest.updateUserRoles(USER_ID, null);
 
 
         verify(userRepositoryMock, times(0))
@@ -312,14 +311,14 @@ public class UserServiceImplTest {
         BookingEntity testBooking1 = new BookingEntity();
         testBooking1.setId(1L);
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
         when(bookingServiceMock.getActiveBookingsByUser(testUserEntity))
                 .thenReturn(List.of(testBooking1));
 
 
-        userServiceTest.deleteUserById(userId);
+        userServiceTest.deleteUserById(USER_ID);
 
 
         verify(bookingServiceMock, times(1))
@@ -335,11 +334,11 @@ public class UserServiceImplTest {
     void testEditUserData() {
         UserEditServiceModel editServiceModel = new UserEditServiceModel();
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
 
-        userServiceTest.editUserData(userId, editServiceModel);
+        userServiceTest.editUserData(USER_ID, editServiceModel);
 
 
         verify(userRepositoryMock, times(1))
@@ -351,17 +350,17 @@ public class UserServiceImplTest {
     @Test
     public void testIsLoggedUserTheAccountHolder_returnsTrueIfItIsHolder() {
         UserEntity editedUserEntity = new UserEntity();
-        editedUserEntity.setId(userId);
+        editedUserEntity.setId(USER_ID);
 
         when(userRepositoryMock.findByUsername(testUserEntity.getUsername()))
                 .thenReturn(Optional.of(testUserEntity));
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(editedUserEntity));
 
 
         boolean result =
-                userServiceTest.isLoggedUserTheAccountHolder(testUserEntity.getUsername(), userId);
+                userServiceTest.isLoggedUserTheAccountHolder(testUserEntity.getUsername(), USER_ID);
 
 
         assertTrue(result);
@@ -370,17 +369,17 @@ public class UserServiceImplTest {
     @Test
     public void testIsLoggedUserTheAccountHolder_returnsFalseIfItIsNotHolder() {
         UserEntity editedUserEntity = new UserEntity();
-        editedUserEntity.setId(userIdFake);
+        editedUserEntity.setId(USER_ID_FAKE);
 
         when(userRepositoryMock.findByUsername(testUserEntity.getUsername()))
                 .thenReturn(Optional.of(testUserEntity));
 
-        when(userRepositoryMock.findById(userIdFake))
+        when(userRepositoryMock.findById(USER_ID_FAKE))
                 .thenReturn(Optional.of(editedUserEntity));
 
 
         boolean result =
-                userServiceTest.isLoggedUserTheAccountHolder(testUserEntity.getUsername(), userIdFake);
+                userServiceTest.isLoggedUserTheAccountHolder(testUserEntity.getUsername(), USER_ID_FAKE);
 
 
         assertFalse(result);
@@ -392,7 +391,7 @@ public class UserServiceImplTest {
                 .thenReturn(Optional.of(testUserEntity));
 
         assertThrows(UserNotFoundException.class,
-                () -> userServiceTest.isLoggedUserTheAccountHolder(testUserEntity.getUsername(), userIdFake));
+                () -> userServiceTest.isLoggedUserTheAccountHolder(testUserEntity.getUsername(), USER_ID_FAKE));
     }
 
 
@@ -401,7 +400,7 @@ public class UserServiceImplTest {
     public void testIsNewEmailDifferentAndExisting() {
         String newEmail = "newemail@email.com";
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
         when(userRepositoryMock.findByEmail(newEmail))
@@ -409,7 +408,7 @@ public class UserServiceImplTest {
 
 
         boolean result =
-                userServiceTest.isNewEmailDifferentAndExisting(userId, newEmail);
+                userServiceTest.isNewEmailDifferentAndExisting(USER_ID, newEmail);
 
 
         assertTrue(result);
@@ -419,7 +418,7 @@ public class UserServiceImplTest {
     public void testIsNewEmailDifferentAndExisting_returnsFalseWhenEmailNotExisting() {
         String newEmail = "newemail@email.com";
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
         when(userRepositoryMock.findByEmail(newEmail))
@@ -427,7 +426,7 @@ public class UserServiceImplTest {
 
 
         boolean result =
-                userServiceTest.isNewEmailDifferentAndExisting(userId, newEmail);
+                userServiceTest.isNewEmailDifferentAndExisting(USER_ID, newEmail);
 
 
         assertFalse(result);
@@ -439,7 +438,7 @@ public class UserServiceImplTest {
     public void testIsNewUsernameDifferentAndExisting() {
         String newUsername = "newUsername";
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
         when(userRepositoryMock.findByUsername(newUsername))
@@ -447,7 +446,7 @@ public class UserServiceImplTest {
 
 
         boolean result =
-                userServiceTest.isNewUsernameDifferentAndExisting(userId, newUsername);
+                userServiceTest.isNewUsernameDifferentAndExisting(USER_ID, newUsername);
 
 
         assertTrue(result);
@@ -457,14 +456,14 @@ public class UserServiceImplTest {
     public void testIsNewUsernameDifferentAndExisting_returnsFalseWhenUsernameNotExisting() {
         String newUsername = "newUsername";
 
-        when(userRepositoryMock.findById(userId))
+        when(userRepositoryMock.findById(USER_ID))
                 .thenReturn(Optional.of(testUserEntity));
 
         when(userRepositoryMock.findByUsername(newUsername))
                 .thenReturn(Optional.empty());
 
 
-        boolean result = userServiceTest.isNewUsernameDifferentAndExisting(userId, newUsername);
+        boolean result = userServiceTest.isNewUsernameDifferentAndExisting(USER_ID, newUsername);
 
 
         assertFalse(result);
