@@ -56,7 +56,6 @@ public class UserControllerTest {
     @MockBean
     private UserRoleService userRoleServiceMock;
 
-    //todo
     @Autowired
     private UserMapper userMapper;
 
@@ -79,7 +78,7 @@ public class UserControllerTest {
     @WithMockUser(username = "user")
     public void testGetMyProfile_returnsCorrectView() throws Exception {
 
-        UserProfileViewModel testUserProfileView = new UserProfileViewModel();
+        UserProfileViewModel testUserProfileView = new UserProfileViewModel();//check the view model
         testUserProfileView.setBookings(new ArrayList<>());
 
         when(userServiceMock.getUserProfileByUsername("user"))
@@ -161,7 +160,7 @@ public class UserControllerTest {
     }
 
 
-    //TODO:
+
     //editUser
     @Test
     @WithMockUser(username = "user")

@@ -1,6 +1,7 @@
 package com.sportscenter.web;
 
 
+import com.sportscenter.exception.ObjectNotFoundException;
 import com.sportscenter.init.TestDataInit;
 import com.sportscenter.model.entity.*;
 import com.sportscenter.repository.*;
@@ -16,6 +17,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -125,6 +127,27 @@ public class SportClassControllerTest {
 
         assertEquals(0, sportClassRepository.count());
     }
+
+    @Test
+    @WithMockUser(
+            username = "admin",
+            roles = {"ADMIN", "USER"})
+    public void testAddSportClass_throwsWhenInstructorNotFound() throws Exception {
+
+        mockMvc.perform(post("/sportClasses/add")
+                        .param("instructorId", "1")
+                        .param("dayOfWeek", "MONDAY")
+                        .param("startTime", "10:00")
+                        .param("endTime", "11:00")
+                        .param("maxCapacity", "20")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().is4xxClientError());
+
+        assertEquals(0, sportClassRepository.count());
+    }
+
+
 
     @Test
     @WithMockUser(
