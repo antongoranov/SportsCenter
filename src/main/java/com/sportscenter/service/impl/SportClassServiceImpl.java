@@ -35,7 +35,6 @@ public class SportClassServiceImpl implements SportClassService {
     @Override
     public List<SportClassViewModel> allClasses() {
 
-        //fetch all classes and map them to view dto
         return sportClassRepository.findAll()
                 .stream()
                 .map(sportClassMapper::sportClassEntityToViewModel)
@@ -79,10 +78,8 @@ public class SportClassServiceImpl implements SportClassService {
         if (hasAvailableSpots(sportClass.getId())) {
             sportClass.setCurrentCapacity(sportClass.getCurrentCapacity() + 1);
 
-            //update
             sportClassRepository.save(sportClass);
         } else {
-            //log
             throw new UnableToProcessOperationException("No spots available! Cannot increase capacity of " + sportClass.getSportClassInfo());
         }
     }

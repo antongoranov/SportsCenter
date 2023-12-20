@@ -62,7 +62,6 @@ public class SportClassController {
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
 
-        //Validate form inputs
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("sportClass", addSportClassBindingModel);
             redirectAttributes.addFlashAttribute(
@@ -78,7 +77,6 @@ public class SportClassController {
         boolean isTimeSlotTaken =
                 sportClassService.isTimeSlotTaken(newDayOfWeek, newStartTime, newEndTime);
 
-        //validate availability
         if (isTimeSlotTaken) {
             redirectAttributes.addFlashAttribute("sportClass", addSportClassBindingModel);
             redirectAttributes.addFlashAttribute("timeSlotTaken", true);

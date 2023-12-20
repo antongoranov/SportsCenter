@@ -160,7 +160,6 @@ public class UserController {
         return "redirect:/users/all";
     }
 
-    //DELETE USER
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{userId}/delete")
     public String deleteUser(@PathVariable("userId") Long userId) {

@@ -42,7 +42,8 @@
                     </p>
                 </th:block>
 
-                <th:block th:unless="${noAvailableSpots}">
+                <th:block sec:authorize="!hasRole('ADMIN')"
+                          th:unless="${noAvailableSpots}">
                     <div class="pt-1 mb-4 text-center">
                         <input type="submit" class="btn btn-dark btn-lg btn-block" value="Book your spot!"/>
                     </div>

@@ -39,25 +39,8 @@ public class BookingServiceImpl implements BookingService {
         UserEntity user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow();
 
-        //move the check to the controller - do not call the method if invalid
-//        boolean hasActiveBookings = findActiveBookingsByUser(user);
-//
-//
-//        if(hasActiveBookings) {
-//            //LOGGER
-//            throw new UnableToProcessBookingException("Unable to process booking! " + user.getUsername() + " is having active bookings!");
-//        }
-
         //will always have a valid sportClass id, as it passed from the bookSportClass GET endpoint
         SportClassEntity sportClass = sportClassRepository.findById(sportClassId).get();
-
-        //move the check to the controller - do not call the method if invalid
-//        boolean hasAvailableSportClassSpots = sportClassService.hasAvailableSpots(sportClass.getId());
-//
-//        if(!hasAvailableSportClassSpots) {
-//            //LOGGER
-//            throw new UnableToProcessBookingException("Unable to process booking! " + sportClass.getSportClassInfo() + " does not have available spots!");
-//        }
 
         BookingEntity booking = BookingEntity.builder()
                 .sportClass(sportClass)
@@ -65,12 +48,9 @@ public class BookingServiceImpl implements BookingService {
                 .status(BookingStatusEnum.ACTIVE)
                 .build();
 
-        //update the current sportClass with the new capacity
         sportClassService.updateCapacity(sportClass);
 
-        //save booking to db
         bookingRepository.save(booking);
-
     }
 
     @Override
@@ -98,16 +78,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void cancelBooking(Long bookingId) {
 
-//        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
-//                .orElseThrow();
-
         //the logged user can only see his bookings, hence, there is no need to check if the user is an owner
         //will always have a valid booking id
         BookingEntity booking = bookingRepository.findById(bookingId).get();
-
-        //handled by isUserIssuerOfBooking(UserDetails userDetails, Long bookingId)
-        //if(user.getId().equals(booking.getUser().getId())){}
-
         booking.setStatus(BookingStatusEnum.CANCELLED);
 
         SportClassEntity bookedSportClass = booking.getSportClass();
@@ -144,8 +117,8 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findAllByUserAndStatus(user, BookingStatusEnum.ACTIVE);
     }
 
-    //***Scheduled tasks***
 
+    //***Scheduled tasks***
     //Everyday at midnight set the status of unused bookings to expired
     @Override
     @Scheduled(cron = "0 59 23 * * ?")
@@ -175,16 +148,4 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.deleteAll(notActiveBookings);
     }
 
-
-    //the logged user can only see his bookings, hence, there is no need to check if the user is an owner
-//    @Override
-//    public boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId) {
-//
-//        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
-//                .orElseThrow();
-//
-//        BookingEntity booking = bookingRepository.findById(bookingId).get();
-//
-//        return user.getId().equals(booking.getUser().getId());
-//    }
 }

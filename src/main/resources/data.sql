@@ -34,15 +34,19 @@ INSERT INTO sport_classes(sport_id, instructor_id, max_capacity, current_capacit
 VALUES (1, 1, 2, 1, 'MONDAY', '19:00:00', '20:00:00'),
        (1, 1, 2, 0, 'TUESDAY', '19:00:00', '20:00:00'),
        (2, 2, 20, 1, 'TUESDAY', '18:00:00', '19:00:00'),
+       (2, 2, 20, 0, 'FRIDAY', '18:00:00', '19:00:00'),
+       (2, 2, 20, 0, 'SUNDAY', '10:00:00', '11:00:00'),
        (3, 3, 20, 0, 'TUESDAY', '16:00:00', '17:00:00'),
-       (1, 4, 20, 0, 'WEDNESDAY', '14:00:00', '15:00:00');
+       (1, 4, 20, 0, 'MONDAY', '14:00:00', '15:00:00'),
+       (1, 4, 2, 0, 'WEDNESDAY', '17:00:00', '18:00:00'),
+       (1, 4, 20, 0, 'FRIDAY', '14:00:00', '15:00:00');
 
 INSERT INTO users(email, first_name, last_name, password, username, profile_picture_url)
 VALUES ('anton@anton.com', 'Anton', 'Goranov',
         '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov', '/images/users/admin.jpg'),
 
        ('user@gmail.com', 'User', 'Userov',
-        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user', '/images/users/test-user.jpg'),
+        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user', '/images/users/user.jpeg'),
 
        ('stela@gmail.com', 'Stela', 'Ivanova',
         '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'stela', NULL);

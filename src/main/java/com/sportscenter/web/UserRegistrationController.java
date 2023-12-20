@@ -61,7 +61,6 @@ public class UserRegistrationController {
 
         userService.register(userRegistrationServiceModel);
 
-        //pass a success flag to the model
         redirectAttributes.addFlashAttribute("registrationSuccess", true);
 
         return "redirect:/users/login";

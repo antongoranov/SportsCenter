@@ -56,8 +56,6 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userEntity);
 
-        //login(userEntity.getUsername());
-
     }
 
     @Override
@@ -67,17 +65,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User with username: " + username + " does not exist!"));
     }
 
-    //after redirection the context is set to AnonymousToken
-//    private void login(String username) {
-//        UserDetails userDetails = appUserDetailsService.loadUserByUsername(username);
-//
-//        Authentication auth = new UsernamePasswordAuthenticationToken(
-//                userDetails,
-//                userDetails.getPassword(),
-//                userDetails.getAuthorities());
-//
-//        SecurityContextHolder.getContext().setAuthentication(auth);
-//    }
 
 
     @Override
@@ -139,7 +126,7 @@ public class UserServiceImpl implements UserService {
         UserEntity existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
 
-        //Cancel active bookings
+        //cancel active bookings
         List<BookingEntity> activeBookings = bookingService.getActiveBookingsByUser(existingUser);
 
         activeBookings.forEach(booking -> {

@@ -26,7 +26,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-//@RequestMapping("/bookSportClass")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -48,7 +47,6 @@ public class BookingController {
         return "sport-class-book";
     }
 
-    //@PreAuthorize(hasAvailableSpots)
     @PostMapping("/bookSportClass/{sportClassId}")
     public String bookSportClass(@AuthenticationPrincipal UserDetails userDetails,
                                  @PathVariable Long sportClassId,
@@ -77,14 +75,10 @@ public class BookingController {
         return "user-bookings";
     }
 
-    //    @PreAuthorize("@bookingServiceImpl.isUserIssuerOfBooking(#userDetails, #bookingId)")
     @PatchMapping("/myBookings/cancelBooking/{bookingId}")
-    public String cancelBooking(//@AuthenticationPrincipal UserDetails userDetails,
-                                @PathVariable Long bookingId) {
 
+    public String cancelBooking(@PathVariable Long bookingId) {
         bookingService.cancelBooking(bookingId);
-
-        //TODO fix the redirect for admin cancellation
         return "redirect:/myBookings";
     }
 
@@ -127,7 +121,6 @@ public class BookingController {
     public String cancelBookingAdmin(@PathVariable Long bookingId) {
 
         bookingService.cancelBooking(bookingId);
-
         return "redirect:/bookings/all";
     }
 
@@ -136,7 +129,6 @@ public class BookingController {
     public String acceptBooking(@PathVariable Long bookingId){
 
         bookingService.acceptBooking(bookingId);
-
         return "redirect:/bookings/all";
     }
 }
