@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/common :: head}"></head>
+
+<body>
+<div>
+  <nav th:replace="~{/fragments/common :: navbar}"></nav>
+</div>
+
+<div class="container">
+
+  <h2 class="text-center text-white">Add Sport</h2>
+
+  <form th:object="${addSportBindingModel}"
+        th:action="@{/sports/add}"
+        th:method="post"
+
+        class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+
+    <div class="row">
+
+      <div class="form-group col-md-6 mb-3">
+        <label class="text-white font-weight-bold" for="name">Sport Name</label>
+        <input id="name"
+               th:field="*{name}"
+               th:errorclass="is-invalid"
+               type="text"
+               class="form-control"
+               placeholder="Sport Name"/>
+
+        <p class="invalid-feedback errors alert alert-danger"
+           th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+          First Name is required.
+        </p>
+        </div>
+
+        <!--            /images/instructors/team-test.jpg-->
+        <div class="form-group col-md-6 mb-3">
+          <label class="text-white font-weight-bold" for="sportImageUrl">Sport Image URL</label>
+          <input id="sportImageUrl"
+                 th:field="*{sportImageUrl}"
+                 th:errorclass="is-invalid"
+                 type="text"
+                 class="form-control"
+                 placeholder="Sport Image URL">
+          <p class="invalid-feedback errors alert alert-danger"
+             th:if="${#fields.hasErrors('sportImageUrl')}" th:errors="*{sportImageUrl}">
+            Sport image URL is required.
+          </p>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label class="text-white font-weight-bold" for="description">Description</label>
+      <textarea id="description"
+                th:field="*{description}"
+                th:errorclass="is-invalid"
+                type="textarea"
+                class="form-control"
+                rows="3"
+                placeholder="Description"></textarea>
+      <p class="invalid-feedback errors alert alert-danger"
+         th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+        Description is required.
+      </p>
+    </div>
+
+    <p class="errors alert alert-danger" th:if="${sportAvailable}">
+      This Sport already exists!
+    </p>
+
+    <div class="row justify-content-center">
+      <div class="col col-md-4">
+        <div class="button-holder d-flex">
+          <input type="submit" class="btn btn-secondary btn-block btn-lg" value="Add Sport"/>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
