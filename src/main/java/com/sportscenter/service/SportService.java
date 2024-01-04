@@ -7,4 +7,6 @@ import java.util.List;
 public interface SportService{
 
     List<SportViewModel> getAllSports();
+
+    void deleteSport(Long sportId);
 }

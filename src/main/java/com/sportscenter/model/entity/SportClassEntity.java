@@ -23,7 +23,6 @@ public class SportClassEntity extends BaseEntity {
     @ManyToOne(optional = false)
     private SportEntity sport;
 
-    //@OneToOne(optional = false) //(optional = false, cascade = CascadeType.ALL)
     @ManyToOne(optional = false)
     private InstructorEntity instructor;
 
@@ -44,8 +43,12 @@ public class SportClassEntity extends BaseEntity {
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    //@OneToMany(mappedBy = "sportClass", targetEntity = BookingEntity.class)
-    //private List<BookingEntity> bookings;
+    //added the bidirectional relation to delete a sport
+    @OneToMany(
+            mappedBy = "sportClass",
+            targetEntity = BookingEntity.class,
+            cascade = CascadeType.ALL)
+    private List<BookingEntity> bookings;
 
     public String getSportClassInfo(){
         return String.format("%s with %s - %s to %s",

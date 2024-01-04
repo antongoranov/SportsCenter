@@ -1,5 +1,7 @@
 package com.sportscenter.service.impl;
 
+import com.sportscenter.exception.ObjectNotFoundException;
+import com.sportscenter.model.entity.SportEntity;
 import com.sportscenter.model.mapper.SportMapper;
 import com.sportscenter.model.view.SportViewModel;
 import com.sportscenter.repository.SportRepository;
@@ -24,5 +26,12 @@ public class SportServiceImpl implements SportService {
                 .stream()
                 .map(sportMapper::sportEntityToViewModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteSport(Long sportId) {
+        SportEntity sport = sportRepository.findById(sportId)
+                .orElseThrow(() -> new ObjectNotFoundException("Sport with " + sportId + " not found!"));
+        sportRepository.delete(sport);
     }
 }

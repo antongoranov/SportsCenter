@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/common :: head}"></head>
+
+<body>
+<div>
+    <nav th:replace="~{/fragments/common :: navbar}"></nav>
+</div>
+
+<div class="container">
+    <h1 class="text-center text-white">All Sports</h1>
+
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sport : ${allSports}">
+            <td th:text="${sport.id}"></td>
+            <td th:text="${sport.name}"></td>
+            <td th:text="${sport.description}"></td>
+            <td>
+
+                <form th:action="@{/sports/{sportId}/delete(sportId=*{sport.id})}"
+                      th:method="delete">
+                    <button type="submit" class="btn btn-danger" value="Delete">
+                        Delete
+                    </button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

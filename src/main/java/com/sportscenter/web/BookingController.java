@@ -76,7 +76,6 @@ public class BookingController {
     }
 
     @PatchMapping("/myBookings/cancelBooking/{bookingId}")
-
     public String cancelBooking(@PathVariable Long bookingId) {
         bookingService.cancelBooking(bookingId);
         return "redirect:/myBookings";
@@ -107,8 +106,8 @@ public class BookingController {
                     .username(userSearchBindingModel.getUsername())
                     .build();
 
-            List<BookingViewModel> allBookings = bookingService.findBookingsByUsername(
-                    userSearchServiceModel);
+            List<BookingViewModel> allBookings =
+                    bookingService.findBookingsByUsername(userSearchServiceModel);
 
             model.addAttribute("allBookingsByUser", allBookings);
         }
