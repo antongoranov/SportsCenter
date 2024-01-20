@@ -22,29 +22,49 @@
         <th scope="col">End Time</th>
         <th scope="col">Status</th>
         <th scope="col">Action</th>
+        <th scope="col">QR Code</th>
     </tr>
     </thead>
     <tbody class="text-center">
-        <tr th:each="booking : ${bookingsByUser}">
-            <td th:text="|${booking.sportClass.sportName} ${booking.sportClass.instructorName}|"></td>
-            <td th:text="${booking.sportClass.dayOfWeekGetDisplayName()}"></td>
-            <td th:text="${booking.sportClass.startTime}"></td>
-            <td th:text="${booking.sportClass.endTime}"></td>
-            <td th:text="${booking.status}"></td>
-            <td>
-                <form th:action="@{/myBookings/cancelBooking/{bookingId}(bookingId=*{booking.id})}"
-                      th:method="patch">
-                    <div class="text-center">
-                        <button th:if="${booking.statusNotActive}" class="btn btn-primary" value="Cancel" disabled>
-                            Cancel
-                        </button>
-                        <button th:unless="${booking.statusNotActive}" type="submit" class="btn btn-primary" value="Cancel">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            </td>
-        </tr>
+    <tr th:each="booking : ${bookingsByUser}">
+        <td th:text="|${booking.sportClass.sportName} ${booking.sportClass.instructorName}|"></td>
+        <td th:text="${booking.sportClass.dayOfWeekGetDisplayName()}"></td>
+        <td th:text="${booking.sportClass.startTime}"></td>
+        <td th:text="${booking.sportClass.endTime}"></td>
+        <td th:text="${booking.status}"></td>
+        <td>
+            <form th:action="@{/myBookings/cancelBooking/{bookingId}(bookingId=*{booking.id})}"
+                  th:method="patch">
+                <div class="text-center">
+                    <button th:if="${booking.statusNotActive}" class="btn btn-primary" value="Cancel" disabled>
+                        Cancel
+                    </button>
+                    <button th:unless="${booking.statusNotActive}" type="submit" class="btn btn-primary" value="Cancel">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </td>
+        <td>
+            <div class="text-center">
+
+                <th:block th:if="${booking.statusNotActive}">
+                    <a class="btn btn-primary"
+                       th:if="${booking.status.equals('ACCEPTED')}" th:href="@{/qrCodes/{bookingId}(bookingId=*{booking.id})}">
+                        QR Entrance Code</a>
+
+                    <a class="btn btn-primary"
+                       th:unless="${booking.status.equals('ACCEPTED')}" th:classappend="disabled">
+                        QR Entrance Code</a>
+                </th:block>
+
+                <a class="btn btn-primary"
+                   th:unless="${booking.statusNotActive}" th:href="@{/qrCodes/{bookingId}(bookingId=*{booking.id})}">
+                    QR Entrance Code</a>
+
+            </div>
+        </td>
+    </tr>
     </tbody>
 
 </table>

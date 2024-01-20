@@ -32,7 +32,6 @@ public class SportClassEntity extends BaseEntity {
     @Column(name = "current_capacity")
     private int currentCapacity;
 
-    //schedule (day of the week, time)
     @Column(name = "day_of_week")
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
@@ -51,9 +50,10 @@ public class SportClassEntity extends BaseEntity {
     private List<BookingEntity> bookings;
 
     public String getSportClassInfo(){
-        return String.format("%s with %s - %s to %s",
+        return String.format("%s with %s - %s %s to %s",
                 this.sport.getName(),
                 this.instructor.getFullName(),
+                this.dayOfWeek.name(),
                 this.startTime.format(DateTimeFormatter.ofPattern("HH:mm")),
                 this.endTime.format(DateTimeFormatter.ofPattern("HH:mm")));
     }

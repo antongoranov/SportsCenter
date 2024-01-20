@@ -1,3 +1,17 @@
+#show sql statements parameter values
+#logging:
+#  level:
+#    blog: WARN
+#    sql: DEBUG
+#    org.hibernate.type.descriptor: TRACE
+#    org:
+#      hibernate:
+#        stat: debug
+#        type: trace
+#        orm:
+#          jdbc:
+#            bind: trace
+
 logging:
   level:
     blog: WARN

@@ -31,7 +31,7 @@ public class SportServiceImpl implements SportService {
     }
 
     @Override
-    @Transactional //check if it is needed
+    @Transactional
     public void deleteSport(Long sportId) {
         SportEntity sport = sportRepository.findById(sportId)
                 .orElseThrow(() -> new ObjectNotFoundException("Sport with " + sportId + " not found!"));

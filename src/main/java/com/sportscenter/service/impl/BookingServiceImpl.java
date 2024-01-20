@@ -12,6 +12,7 @@ import com.sportscenter.repository.BookingRepository;
 import com.sportscenter.repository.SportClassRepository;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.service.BookingService;
+import com.sportscenter.service.QrCodeService;
 import com.sportscenter.service.SportClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,6 +32,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final SportClassRepository sportClassRepository;
     private final SportClassService sportClassService;
+    private final QrCodeService qrCodeService;
     private final BookingMapper bookingMapper;
 
     @Override
@@ -51,6 +53,8 @@ public class BookingServiceImpl implements BookingService {
         sportClassService.updateCapacity(sportClass);
 
         bookingRepository.save(booking);
+
+        qrCodeService.generateQrForBooking(booking);
     }
 
     @Override
@@ -87,6 +91,8 @@ public class BookingServiceImpl implements BookingService {
         sportClassService.decreaseCapacity(bookedSportClass);
 
         bookingRepository.save(booking);
+
+        qrCodeService.deleteQrCodeForBooking(bookingId);
     }
 
     @Override
@@ -119,7 +125,7 @@ public class BookingServiceImpl implements BookingService {
 
 
     //***Scheduled tasks***
-    //Everyday at midnight set the status of unused bookings to expired
+    //Everyday at midnight set the status of unused bookings to expired and delete their qr codes
     @Override
     @Scheduled(cron = "0 59 23 * * ?")
     public void expireBookingsAtEndOfDay() {
@@ -132,11 +138,13 @@ public class BookingServiceImpl implements BookingService {
                 .forEach(booking -> {
                     booking.setStatus(BookingStatusEnum.EXPIRED);
                     bookingRepository.save(booking);
+
+                    qrCodeService.deleteQrCodeForBooking(booking.getId());
                 });
     }
 
 
-    //Every Sunday at 23:59 delete all non Active bookings to reset them for the next week;
+    //Every Sunday at 23:59 delete all non Active bookings and their qr codes to reset them for the next week;
     //Leave the Active ones which are already made for the next week.
     @Override
     @Scheduled(cron = "0 59 23 ? * SUN")
@@ -144,6 +152,9 @@ public class BookingServiceImpl implements BookingService {
 
         List<BookingEntity> notActiveBookings =
                 bookingRepository.findByStatusNot(BookingStatusEnum.ACTIVE);
+
+        notActiveBookings.forEach(bookingEntity ->
+                qrCodeService.deleteQrCodeForBooking(bookingEntity.getId()));
 
         bookingRepository.deleteAll(notActiveBookings);
     }

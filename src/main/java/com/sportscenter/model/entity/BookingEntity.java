@@ -22,4 +22,12 @@ public class BookingEntity extends BaseEntity {
     @Column
     @Enumerated(EnumType.STRING)
     private BookingStatusEnum status;
+
+    @Override
+    public String toString() {
+        return String.format("%s booked %s with status %s",
+                user.getUsername(),
+                sportClass.getSportClassInfo(),
+                status.toString());
+    }
 }
