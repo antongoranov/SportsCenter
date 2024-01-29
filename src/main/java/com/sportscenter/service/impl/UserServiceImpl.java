@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final BookingService bookingService;
+    private final EmailService emailService;
 
     private static final String UPLOAD_DIRECTORY =
             new File("src\\main\\resources\\static\\images\\users").getAbsolutePath();
@@ -56,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userEntity);
 
+        emailService.sendRegistrationEmail(userEntity.getEmail(), userEntity.getUsername());
     }
 
     @Override
