@@ -28,5 +28,4 @@ public interface BookingService {
 
     void deleteExpiredBookingsAtEndOfWeek();
 
-//    boolean isUserIssuerOfBooking(UserDetails userDetails, Long bookingId);
 }

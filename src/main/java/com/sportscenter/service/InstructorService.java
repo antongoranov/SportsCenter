@@ -9,6 +9,5 @@ public interface InstructorService {
 
     List<InstructorViewModel> getAllInstructors();
     InstructorViewModel getInstructorById(Long id);
-
     void addInstructor(AddInstructorServiceModel serviceModel);
 }
