@@ -43,5 +43,8 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user", targetEntity = BookingEntity.class, cascade = CascadeType.ALL)
     private List<BookingEntity> bookings;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PasswordResetToken passwordResetToken;
+
 
 }

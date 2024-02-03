@@ -18,9 +18,13 @@
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="form-group">
 
-            <p th:if="${registrationSuccessAttr}" class="alert alert-success">
+            <p th:if="${registrationSuccess}" class="alert alert-success">
                 Registration successful. Please login below:
             </p>
+            <p th:if="${passwordChangeSuccessful}" class="alert alert-success">
+                Password change was successful! Please login below:
+            </p>
+
 
             <label for="username" class="text-white font-weight-bold">Username</label>
             <input id="username"
@@ -40,6 +44,8 @@
                    placeholder="Password"/>
 
         </div>
+
+        <a th:href="@{/resetPassword}">Reset Password</a>
 
         <p th:if="${loginFailed}" class="errors alert alert-danger">
             Invalid username or password.

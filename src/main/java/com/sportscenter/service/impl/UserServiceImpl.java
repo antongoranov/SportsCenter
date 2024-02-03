@@ -2,15 +2,18 @@ package com.sportscenter.service.impl;
 
 import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.BookingEntity;
+import com.sportscenter.model.entity.PasswordResetToken;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
+import com.sportscenter.model.service.PasswordChangeServiceModel;
 import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.model.view.UserViewModel;
+import com.sportscenter.repository.PasswordResetTokenRepository;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.BookingService;
@@ -35,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRoleRepository userRoleRepository;
     private final UserRepository userRepository;
+    private final PasswordResetTokenRepository pwResetTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final BookingService bookingService;
@@ -94,6 +98,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean userWithEmailExists(String email) {
+        return userRepository
+                .findByEmail(email)
+                .isPresent();
+    }
+
+    @Override
     public List<UserViewModel> getAllUsers() {
         return userRepository
                 .findAll()
@@ -108,6 +119,13 @@ public class UserServiceImpl implements UserService {
                 .findById(userId)
                 .map(userMapper::mapUserEntityToViewModel)
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
+    }
+
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email: " + email + " does not exist!"));
     }
 
     @Override
@@ -184,5 +202,17 @@ public class UserServiceImpl implements UserService {
 
         return !user.getUsername().equals(newUsername) &&
                 userRepository.findByUsername(newUsername).isPresent();
+    }
+
+    @Override
+    public void changeUserPassword(PasswordChangeServiceModel pwChangeServiceModel) {
+
+        //will always have a valid token when reached
+        PasswordResetToken pwResetToken = pwResetTokenRepository.findByToken(pwChangeServiceModel.getToken()).get();
+
+        UserEntity user = pwResetToken.getUser();
+        user.setPassword(passwordEncoder.encode(pwChangeServiceModel.getNewPassword()));
+
+        userRepository.save(user);
     }
 }

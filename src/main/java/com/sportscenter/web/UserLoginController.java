@@ -12,12 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserLoginController {
 
     @GetMapping("/login")
-    public String login(Model model) {
-
-        if(model.containsAttribute("registrationSuccess")){
-            model.addAttribute("registrationSuccessAttr", true);
-        }
-
+    public String login() {
         return "login";
     }
 

@@ -1,8 +1,8 @@
 package com.sportscenter.web;
 
+import com.sportscenter.model.binding.PasswordResetBindingModel;
 import com.sportscenter.model.binding.UserEditBindingModel;
 import com.sportscenter.model.binding.UserPictureBindingModel;
-import com.sportscenter.model.binding.UserRegistrationBindingModel;
 import com.sportscenter.model.mapper.UserMapper;
 import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
@@ -11,7 +11,6 @@ import com.sportscenter.model.view.UserRoleViewModel;
 import com.sportscenter.model.view.UserViewModel;
 import com.sportscenter.service.UserRoleService;
 import com.sportscenter.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

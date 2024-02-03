@@ -1,6 +1,8 @@
 package com.sportscenter.service;
 
+import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
+import com.sportscenter.model.service.PasswordChangeServiceModel;
 import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
@@ -22,6 +24,8 @@ public interface UserService {
 
     boolean userExists(String username);
 
+    boolean userWithEmailExists(String email);
+
     List<UserViewModel> getAllUsers();
 
     UserViewModel getUserById(Long userId);
@@ -37,4 +41,8 @@ public interface UserService {
     boolean isNewUsernameDifferentAndExisting(Long userId, String newUsername);
 
     void editUserData(Long userId, UserEditServiceModel userEditServiceModel);
+
+    UserEntity getUserByEmail(String email);
+
+    void changeUserPassword(PasswordChangeServiceModel pwChangeServiceModel);
 }
