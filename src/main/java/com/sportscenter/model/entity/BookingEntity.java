@@ -23,6 +23,9 @@ public class BookingEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private BookingStatusEnum status;
 
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
+    private QrCodeEntity qrCode;
+
     @Override
     public String toString() {
         return String.format("%s booked %s with status %s",

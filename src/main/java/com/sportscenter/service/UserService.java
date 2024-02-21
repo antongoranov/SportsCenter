@@ -45,4 +45,8 @@ public interface UserService {
     UserEntity getUserByEmail(String email);
 
     void changeUserPassword(PasswordChangeServiceModel pwChangeServiceModel);
+
+    void createUserIfNotExist(String email);
+
+    void login(String userName);
 }

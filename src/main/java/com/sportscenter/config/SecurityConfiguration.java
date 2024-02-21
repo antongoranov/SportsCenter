@@ -13,14 +13,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity //prePostEnabled = true by default
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           AuthenticationSuccessHandler oAuthSuccessHandler) throws Exception {
 
         return http
                 .authorizeHttpRequests(
@@ -39,6 +41,9 @@ public class SecurityConfiguration {
                                         .passwordParameter("password")
                                         .defaultSuccessUrl("/", true)
                                         .failureForwardUrl("/users/login-error"))
+                .oauth2Login(oauth2login -> oauth2login
+                        .loginPage("/users/login")
+                        .successHandler(oAuthSuccessHandler))
                 .logout(
                         logout -> logout
                                 .logoutUrl("/users/logout")

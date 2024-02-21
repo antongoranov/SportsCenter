@@ -45,7 +45,12 @@
 
         </div>
 
+        <span>
         <a th:href="@{/resetPassword}">Reset Password</a>
+
+        <a th:href="@{/oauth2/authorization/google}" style="float: right">Login with Google</a>
+        </span>
+
 
         <p th:if="${loginFailed}" class="errors alert alert-danger">
             Invalid username or password.

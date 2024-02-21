@@ -19,6 +19,11 @@ import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.BookingService;
 import com.sportscenter.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +34,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -43,6 +50,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final BookingService bookingService;
     private final EmailService emailService;
+    private final UserDetailsService userDetailsService;
 
     private static final String UPLOAD_DIRECTORY =
             new File("src\\main\\resources\\static\\images\\users").getAbsolutePath();
@@ -70,7 +78,6 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::userEntityToProfileViewModel)
                 .orElseThrow(() -> new UserNotFoundException("User with username: " + username + " does not exist!"));
     }
-
 
 
     @Override
@@ -129,12 +136,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserRoles(Long userId, Set<UserRoleEntity> newRoles){
+    public void updateUserRoles(Long userId, Set<UserRoleEntity> newRoles) {
 
         UserEntity existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
 
-        if(newRoles != null){
+        if (newRoles != null) {
             existingUser.setRoles(newRoles);
             userRepository.save(existingUser);
         }
@@ -173,7 +180,7 @@ public class UserServiceImpl implements UserService {
 
     //EDIT PROFILE INFO VALIDATIONS
     @Override
-    public boolean isLoggedUserTheAccountHolder(String principalUsername, Long userId){
+    public boolean isLoggedUserTheAccountHolder(String principalUsername, Long userId) {
 
         //method called from endpoint reached only when authenticated
         UserEntity loggedUser = userRepository.findByUsername(principalUsername).get();
@@ -214,5 +221,41 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(pwChangeServiceModel.getNewPassword()));
 
         userRepository.save(user);
+    }
+
+    @Override
+    public void createUserIfNotExist(String email) {
+        Optional<UserEntity> userOpt = userRepository.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+
+            UserRegistrationServiceModel newUser =
+                    UserRegistrationServiceModel.builder()
+                            .firstName("New")
+                            .lastName("User")
+                            .email(email)
+                            .username(email)
+                            .password(UUID.randomUUID().toString())
+                            .build();
+
+            register(newUser);
+        }
+    }
+
+    @Override
+    public void login(String username) {
+
+        UserDetails userDetails =
+                userDetailsService.loadUserByUsername(username);
+
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        userDetails.getPassword(),
+                        userDetails.getAuthorities());
+
+        SecurityContextHolder.
+                getContext().
+                setAuthentication(auth);
     }
 }

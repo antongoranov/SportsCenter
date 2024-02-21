@@ -13,7 +13,7 @@
     <h2 class="text-center text-white mt-5">Your Bookings</h2>
 </div>
 
-<table class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">
+<table th:if="${!bookingsByUser.isEmpty()}" class="table table-dark" border="1" cellspacing="0" frame="box" rules="all">
     <thead class="text-center">
     <tr>
         <th scope="col">Sport Class</th>
@@ -68,6 +68,11 @@
     </tbody>
 
 </table>
+
+<h4 class="text-center text-white" th:if="${bookingsByUser.isEmpty()}">
+    You don't have any Active bookings yet.
+    Go to the <a th:href="@{/sportClasses/all}">Schedule</a> and book your spot!
+</h4>
 
 <footer th:replace="~{fragments/common :: footer}"></footer>
 
