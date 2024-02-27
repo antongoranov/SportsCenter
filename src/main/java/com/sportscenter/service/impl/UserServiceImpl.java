@@ -17,6 +17,7 @@ import com.sportscenter.repository.PasswordResetTokenRepository;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.BookingService;
+import com.sportscenter.service.CloudinaryService;
 import com.sportscenter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,9 +52,7 @@ public class UserServiceImpl implements UserService {
     private final BookingService bookingService;
     private final EmailService emailService;
     private final UserDetailsService userDetailsService;
-
-    private static final String UPLOAD_DIRECTORY =
-            new File("src\\main\\resources\\static\\images\\users").getAbsolutePath();
+    private final CloudinaryService cloudinaryService;
 
     @Override
     public void register(UserRegistrationServiceModel userRegistrationServiceModel) {
@@ -79,7 +78,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException("User with username: " + username + " does not exist!"));
     }
 
-
     @Override
     public void changeProfilePic(UserPictureServiceModel userPictureServiceModel) throws IOException {
 
@@ -88,12 +86,18 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.findByUsername(userPictureServiceModel.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User with username: " + userPictureServiceModel.getUsername() + " does not exist!"));
 
-        Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, filePicture.getOriginalFilename());
+        String userProfilePictureUrl = user.getProfilePictureUrl();
+        if (userProfilePictureUrl != null) {
+            String publicId =
+                    userProfilePictureUrl.substring(61, userProfilePictureUrl.lastIndexOf('.'));
 
-        //overrides the file
-        Files.write(fileNameAndPath, filePicture.getBytes());
+            cloudinaryService.deleteUserOldProfilePicture(publicId);
+        }
 
-        user.setProfilePictureUrl("/images/users/" + filePicture.getOriginalFilename());
+        String newPictureUrl =
+                cloudinaryService.uploadUserProfilePicture(filePicture);
+
+        user.setProfilePictureUrl(newPictureUrl);
         userRepository.save(user);
     }
 

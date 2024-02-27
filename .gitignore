@@ -32,11 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-entity-relations.txt
-TestRunnerClass.java
 
-schedule-initial.html
-instructors-all-test.html
-instructor-info-test.html
+entity-relations.txt
+
+src/main/resources/gitignore/
 
 src/test/info.txt

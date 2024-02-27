@@ -7,7 +7,6 @@ import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
-import com.sportscenter.model.view.UserRoleViewModel;
 import com.sportscenter.model.view.UserViewModel;
 
 import java.io.IOException;

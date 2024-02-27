@@ -7,8 +7,26 @@ spring:
 #    multipart:
 #      max-file-size: 5MB
 #      max-request-size: 5MB
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "test"
+            client-secret: "test"
   sql:
     init:
       mode: never
 
+cloudinary:
+  cloud-name: "test"
+  api-key: "test"
+  api-secret: "test"
+
+mail:
+  host: "localhost"
+  port: 1025
+  username: "test"
+  password:  "test"
 

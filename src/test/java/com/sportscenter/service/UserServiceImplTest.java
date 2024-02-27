@@ -13,6 +13,7 @@ import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.model.view.UserViewModel;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
+import com.sportscenter.service.impl.EmailService;
 import com.sportscenter.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,10 @@ public class UserServiceImplTest {
     private UserMapper userMapperMock;
     @Mock
     private BookingService bookingServiceMock;
+    @Mock
+    private CloudinaryService cloudinaryServiceMock;
+    @Mock
+    private EmailService emailServiceMock;
 
     @InjectMocks
     private UserServiceImpl userServiceTest;
@@ -78,7 +83,7 @@ public class UserServiceImplTest {
                 .username("user")
                 .email("user@email.com")
                 .password("12345")
-                .profilePictureUrl("url/testUser")
+                .profilePictureUrl("https://res.cloudinary.com/drksjtn0q/image/upload/v1708722519/sportscenter/users/testUser.jpg")
                 .roles(Set.of(testUserRole))
                 .build();
         testUserEntity.setId(USER_ID);
@@ -182,7 +187,6 @@ public class UserServiceImplTest {
     }
 
 
-    //changeProfilePic
     @Test
     public void testChangeProfilePic() throws IOException {
         UserPictureServiceModel userPictureModelTest = UserPictureServiceModel.builder()

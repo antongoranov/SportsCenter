@@ -1,6 +1,5 @@
 package com.sportscenter.web;
 
-import com.sportscenter.model.binding.PasswordResetBindingModel;
 import com.sportscenter.model.binding.UserEditBindingModel;
 import com.sportscenter.model.binding.UserPictureBindingModel;
 import com.sportscenter.model.mapper.UserMapper;

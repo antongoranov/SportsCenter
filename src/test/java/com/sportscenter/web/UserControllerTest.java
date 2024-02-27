@@ -2,14 +2,15 @@ package com.sportscenter.web;
 
 import com.sportscenter.init.TestDataInit;
 import com.sportscenter.model.entity.UserEntity;
-import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.mapper.UserMapper;
 import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.model.view.UserViewModel;
+import com.sportscenter.service.CloudinaryService;
 import com.sportscenter.service.UserRoleService;
 import com.sportscenter.service.UserService;
+import com.sportscenter.service.impl.EmailService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithAnonymousUser;
@@ -26,11 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.hamcrest.Matchers.is;
@@ -52,6 +49,12 @@ public class UserControllerTest {
 
     @MockBean
     private UserService userServiceMock;
+
+    @MockBean
+    private CloudinaryService cloudinaryServiceMock;
+
+    @MockBean
+    private EmailService emailServiceMock;
 
     @MockBean
     private UserRoleService userRoleServiceMock;
@@ -100,7 +103,6 @@ public class UserControllerTest {
     }
 
 
-    //changeProfilePic
     @Test
     @WithMockUser(username = "user")
     public void testChangeProfilePic_changesProfilePicWithCorrectData() throws Exception {

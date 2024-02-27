@@ -4,29 +4,29 @@ VALUES ('ADMIN'),
 
 INSERT INTO sports(name, description, sport_image_url)
 VALUES ('Crossfit', 'CrossFit is a high-intensity fitness program that combines elements of weightlifting, cardiovascular exercise, and gymnastics. Participants engage in constantly varied and functional movements, performed at a high intensity. Workouts often include a mix of exercises like weightlifting, running, rowing, and bodyweight movements, promoting overall fitness and strength.',
-        '/images/sports/crossfit.jpg'),
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722663/sportscenter/sports/crossfit.webp'),
 
        ('Kangoo Jumps', 'Kangoo Jumps is a unique and energetic fitness class that involves wearing rebound shoes with springs. Participants perform various aerobic and dance movements while enjoying the benefits of reduced impact on joints due to the shock-absorbing technology in the shoes. It is a fun and effectives way to improve cardiovascular fitness, balance, and coordination.',
-        '/images/sports/kangoo.jpg'),
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722680/sportscenter/sports/kangoo.jpg'),
 
        ('Tabata', 'Tabata training is a high-intensity interval training (HIIT) method characterized by short, intense bursts of exercise followed by brief periods of rest. Typically lasting four minutes, a Tabata workout consists of eight rounds of 20 seconds of intense exercise followed by 10 seconds of rest. This format, scientifically proven to boost cardiovascular fitness and metabolic rate, can involve various exercises, providing a quick yet effective workout.',
-        '/images/sports/tabata.jpg');
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722701/sportscenter/sports/tabata.jpg');
 
 INSERT INTO instructors(first_name, last_name, email, phone_number, picture_url, bio, sport_id)
 VALUES ('Ivan', 'Petrov', 'ivan.petrov@email.com', '+359876543210',
-        '/images/instructors/team-1.jpg',
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722758/sportscenter/instructors/team-1.jpg',
         'Bio Ivan', 1),
 
        ('Mariya', 'Ivanova', 'mariya.ivanova@email.com', '+359888765432',
-        '/images/instructors/team-2.jpg',
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722771/sportscenter/instructors/team-2.jpg',
         'Bio Mariya', 2),
 
        ('Georgi', 'Dimitrov', 'georgi.dimitrov@email.com', '+359897654321',
-        '/images/instructors/team-3.jpg',
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722785/sportscenter/instructors/team-3.jpg',
         'Bio Georgi', 3),
 
        ('Stanimira', 'Ilieva', 'stani.ilieva@email.com', '+359895784321',
-        '/images/instructors/team-4.jpg',
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722798/sportscenter/instructors/team-4.jpg',
         'Bio Stanimira', 1);
 
 
@@ -43,10 +43,12 @@ VALUES (1, 1, 2, 1, 'MONDAY', '19:00:00', '20:00:00'),
 
 INSERT INTO users(email, first_name, last_name, password, username, profile_picture_url)
 VALUES ('anton@anton.com', 'Anton', 'Goranov',
-        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov', '/images/users/admin.jpg'),
+        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov',
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722519/sportscenter/users/admin.png'),
 
        ('user@gmail.com', 'User', 'Userov',
-        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user', '/images/users/user.jpeg'),
+        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user',
+        'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722595/sportscenter/users/user.jpg'),
 
        ('stela@gmail.com', 'Stela', 'Ivanova',
         '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'stela', NULL);
