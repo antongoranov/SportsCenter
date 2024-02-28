@@ -1,18 +1,17 @@
 package com.sportscenter.service.impl;
 
 import com.sportscenter.exception.ObjectNotFoundException;
-import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.InstructorEntity;
 import com.sportscenter.model.entity.SportEntity;
-import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.mapper.InstructorMapper;
 import com.sportscenter.model.service.AddInstructorServiceModel;
 import com.sportscenter.model.view.InstructorViewModel;
 import com.sportscenter.repository.InstructorRepository;
 import com.sportscenter.repository.SportRepository;
-import com.sportscenter.repository.UserRepository;
 import com.sportscenter.service.InstructorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +26,18 @@ public class InstructorServiceImpl implements InstructorService {
 
     private final InstructorMapper instructorMapper;
 
+
     @Override
     public List<InstructorViewModel> getAllInstructors() {
         return instructorRepository.findAll()
                 .stream()
                 .map(instructorMapper::mapInstructorEntityToViewModel)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public Page<InstructorViewModel> getAllInstructorsPaged(Pageable pageable) {
+        return instructorRepository.findAll(pageable)
+                .map(instructorMapper::mapInstructorEntityToViewModel);
     }
 
     @Override

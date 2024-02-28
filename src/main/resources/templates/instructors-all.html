@@ -7,27 +7,77 @@
 
 <body>
 <div>
-  <nav th:replace="~{/fragments/common :: navbar}"></nav>
+    <nav th:replace="~{/fragments/common :: navbar}"></nav>
 </div>
 
 <div class="container">
 
-  <div class="row">
+    <div class="row">
 
-    <div class="col-sm-6 py-2"
-          th:each="instructor : ${instructors}">
-      <div class="card">
-          <img class="card-img-top " th:src="${instructor.pictureUrl}" alt="Class image">
-        <div class="card-body">
-          <h5 class="card-title" th:text="${instructor.fullName}">Instructor name</h5>
-          <h5 th:text="${instructor.sportName}"></h5>
-          <p class="card-text" th:text="|${instructor.bio.substring(0, 7)}...|" >short desc... click info to learn more</p>
-          <a th:href="@{/instructors/{id}(id = ${instructor.id})}" class="btn btn-dark btn-block">See full information</a>
+        <div class="col-sm-6 py-2"
+             th:each="instructor : ${instructors}">
+            <div class="card">
+                <img class="card-img-top " th:src="${instructor.pictureUrl}" alt="Class image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${instructor.fullName}">Instructor name</h5>
+                    <h5 th:text="${instructor.sportName}"></h5>
+                    <p class="card-text" th:text="|${instructor.bio.substring(0, 7)}...|">short desc... click info to
+                        learn more</p>
+                    <a th:href="@{/instructors/{id}(id = ${instructor.id})}" class="btn btn-dark btn-block">See full
+                        information</a>
+                </div>
+            </div>
         </div>
-      </div>
+
     </div>
 
-  </div>
+    <div class="row justify-content-center">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${instructors.isFirst()} ? 'disabled' : ''">
+                    <a th:unless="${instructors.isFirst()}"
+                       th:href="@{/instructors/all(size=${instructors.getSize()},page=0)}"
+                       class="page-link" href="#">First</a>
+                    <a th:if="${instructors.isFirst()}"
+                       class="page-link" href="#">First</a>
+                </li>
+            </ul>
+        </nav>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${instructors.hasPrevious() ? '' : 'disabled'}">
+                    <a th:if="${instructors.hasPrevious()}"
+                       th:href="@{/instructors/all(size=${instructors.getSize()},page=${instructors.getNumber() - 1})}"
+                       class="page-link" href="#">Previous</a>
+                    <a th:unless="${instructors.hasPrevious()}"
+                       class="page-link" href="#">Previous</a>
+                </li>
+            </ul>
+        </nav>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${instructors.hasNext() ? '' : 'disabled'}">
+                    <a th:if="${instructors.hasNext()}"
+                       th:href="@{/instructors/all(size=${instructors.getSize()},page=${instructors.getNumber() + 1})}"
+                       class="page-link" href="#">Next</a>
+                    <a th:unless="${instructors.hasNext()}"
+                       class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${instructors.isLast()} ? 'disabled' : ''">
+                    <a th:unless="${instructors.isLast()}"
+                       th:href="@{/instructors/all(size=${instructors.getSize()},page=${instructors.getTotalPages() - 1})}"
+                       class="page-link" href="#">Last</a>
+                    <a th:if="${instructors.isLast()}"
+                       class="page-link" href="#">Last</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
 
 </div>
 

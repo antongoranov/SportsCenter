@@ -9,6 +9,9 @@ import com.sportscenter.service.InstructorService;
 import com.sportscenter.service.SportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,9 +35,11 @@ public class InstructorController {
     private final InstructorMapper instructorMapper;
 
     @GetMapping("/all")
-    public String allInstructors(Model model) {
+    public String allInstructors(Model model,
+                                 @PageableDefault(size = 4) Pageable pageable) {
 
-        List<InstructorViewModel> instructors = instructorService.getAllInstructors();
+        Page<InstructorViewModel> instructors =
+                instructorService.getAllInstructorsPaged(pageable);
 
         model.addAttribute("instructors", instructors);
 

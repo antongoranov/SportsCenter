@@ -30,7 +30,6 @@ public class MailConfiguration {
         return javaMailSender;
     }
 
-    //Specific properties which are for the JavaMail API
     private Properties mailProperties() {
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.auth", "true");
