@@ -63,7 +63,7 @@ Having two interceptors:</br>
 
 **Implements error handling and data validation both client and server-side.** </br>
 
-**Has a REST Controller that is called upon by the JavaScript fetch API to asynchronously load the user's bookings their profile.**</br>
+**Has a REST Controller that is called upon by the JavaScript fetch API to asynchronously load the user's bookings to their profile.**</br>
 
 ## Testing
 Achieved 60% code coverage, having both Integration and Unit tests. </br>
@@ -86,7 +86,7 @@ Navigate to the project directory: cd SportsCenter </br>
 Open src/main/resources/application.yml and set the required environment variables. </br>
 Build the project: ./mvnw clean install </br>
 Run the application: ./mvnw spring-boot:run </br>
-Visit http://localhost:8080 in your web browser to access the Sport Classes Booking System. </br>
+Visit http://localhost:8080 in your web browser to access the Sports Center application </br>
 
 #### Feel free to explore, book classes, and manage the system as a user or an admin!
 

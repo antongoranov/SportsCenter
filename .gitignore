@@ -32,9 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
+.mvn/
 
 entity-relations.txt
-
 src/main/resources/gitignore/
-
 src/test/info.txt
