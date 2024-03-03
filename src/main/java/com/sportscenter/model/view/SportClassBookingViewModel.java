@@ -17,10 +17,7 @@ import java.util.Locale;
 @Data
 public class SportClassBookingViewModel {
 
-    //sportClassId
     private Long id;
-
-    //private SportEntity sport;
     private Long sportId;
     private String sportName;
     private String sportImageUrl;

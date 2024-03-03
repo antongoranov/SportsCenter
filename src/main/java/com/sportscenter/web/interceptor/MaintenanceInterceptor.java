@@ -20,7 +20,7 @@ public class MaintenanceInterceptor implements HandlerInterceptor {
         boolean maintenanceMode = underMaintenance();
 
         if (maintenanceMode && !requestURI.equals("/maintenance")) {
-            response.sendRedirect("/maintenance"); // Redirect to maintenance page
+            response.sendRedirect("/maintenance");
             return false;
         }
 

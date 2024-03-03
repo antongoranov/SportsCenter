@@ -15,6 +15,4 @@ public class UserViewModel {
     private String email;
     private Set<UserRoleEntity> roles;
 
-//    private Set<UserRoleViewModel> roles;
-//    private Set<Long> roleIds;
 }

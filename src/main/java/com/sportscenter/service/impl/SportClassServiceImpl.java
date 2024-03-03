@@ -60,7 +60,6 @@ public class SportClassServiceImpl implements SportClassService {
 
         return sportClassRepository.findById(sportClassId)
                 .map(sportClassMapper::sportClassEntityToBookingViewModel)
-                //log
                 .orElseThrow(() -> new ObjectNotFoundException("Sport class with " + sportClassId + " not found!"));
     }
 

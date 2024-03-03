@@ -32,7 +32,6 @@ public class InstructorEntity extends BaseEntity {
     @Column(name = "picture_url")
     private String pictureUrl;
 
-    //edit
     @OneToMany(
             mappedBy = "instructor",
             targetEntity = SportClassEntity.class,

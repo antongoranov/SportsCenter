@@ -64,7 +64,6 @@ public class BookingController {
         return "redirect:/myBookings";
     }
 
-    //User Bookings
     @GetMapping("/myBookings")
     public String userBookings(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 

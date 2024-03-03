@@ -157,7 +157,6 @@ public class UserServiceImpl implements UserService {
         UserEntity existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " does not exist!"));
 
-        //cancel active bookings
         List<BookingEntity> activeBookings = bookingService.getActiveBookingsByUser(existingUser);
 
         activeBookings.forEach(booking -> {

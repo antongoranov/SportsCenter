@@ -42,7 +42,6 @@ public class SportClassEntity extends BaseEntity {
     @Column(name = "end_time")
     private LocalTime endTime;
 
-    //added the bidirectional relation to delete a sport
     @OneToMany(
             mappedBy = "sportClass",
             targetEntity = BookingEntity.class,

@@ -88,7 +88,7 @@ Build the project: ./mvnw clean install </br>
 Run the application: ./mvnw spring-boot:run </br>
 Visit http://localhost:8080 in your web browser to access the Sports Center application </br>
 
-#### Feel free to explore, book classes, and manage the system as a user or an admin!
+**Feel free to explore, book classes, and manage the system as a user or an admin!**
 
 
 
