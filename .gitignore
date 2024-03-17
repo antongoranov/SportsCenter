@@ -37,3 +37,4 @@ build/
 entity-relations.txt
 src/main/resources/gitignore/
 src/test/info.txt
+docker/.env

@@ -1,0 +1,65 @@
+name: "sportscenter-app"
+
+services:
+  db:
+    container_name: mysql
+    image: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - sportscenter-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE_NAME}
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - sportscenter-network
+
+  sportscenter:
+    container_name: sportscenter-image
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_URL: ${DB_URL}
+
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_HOST_PASSWORD: ${MAIL_HOST_PASSWORD}
+      MAIL_HOST_USERNAME: ${MAIL_HOST_USERNAME}
+
+      OAUTH_GOOGLE_CLIENT_ID: ${OAUTH_GOOGLE_CLIENT_ID}
+      OAUTH_GOOGLE_CLIENT_SECRET: ${OAUTH_GOOGLE_CLIENT_SECRET}
+
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+    ports:
+      - "8080:8080"
+    networks:
+      - sportscenter-network
+
+    depends_on:
+      db:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+    env_file: .env
+
+networks:
+  sportscenter-network:
+    driver: bridge
+
+volumes:
+  db:

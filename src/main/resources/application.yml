@@ -3,7 +3,6 @@ logging:
     blog: WARN
     org: WARN
     sql: debug
-#    org.hibernate.sql: DEBUG
     org.hibernate.type.descriptor: TRACE
 
 
@@ -47,7 +46,7 @@ cloudinary:
   api-secret: ${CLOUDINARY_API_SECRET}
 
 mail:
-  host: "localhost"
+  host: ${MAIL_HOST:localhost}
   port: 1025
   username: ${MAIL_HOST_USERNAME}
   password:  ${MAIL_HOST_PASSWORD}

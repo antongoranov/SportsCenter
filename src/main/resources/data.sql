@@ -42,16 +42,16 @@ VALUES (1, 1, 2, 1, 'MONDAY', '19:00:00', '20:00:00'),
        (1, 4, 20, 0, 'FRIDAY', '14:00:00', '15:00:00');
 
 INSERT INTO users(email, first_name, last_name, password, username, profile_picture_url)
-VALUES ('anton@anton.com', 'Anton', 'Goranov',
-        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'agoranov',
+VALUES ('admin@admin.com', 'Admin', 'Adminov',
+        '$2a$10$IV/H.EI3PdfYpIxicMMbAOLe1MedkDwEUytHvFwEUoVbcV1.CoGw2', 'admin',
         'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722519/sportscenter/users/admin.png'),
 
        ('user@gmail.com', 'User', 'Userov',
         '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'user',
         'https://res.cloudinary.com/drksjtn0q/image/upload/v1708722595/sportscenter/users/user.jpg'),
 
-       ('stela@gmail.com', 'Stela', 'Ivanova',
-        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'stela', NULL);
+       ('test@gmail.com', 'Test', 'Testov',
+        '$2a$10$seonkCywjMOsOcnvHpdFv.0xfXAHkGwOhTxrYrXwQGbh0uCttWcyC', 'test', NULL);
 
 INSERT INTO users_roles(user_id, role_id)
 VALUES (1, 1),
