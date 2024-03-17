@@ -41,7 +41,6 @@ public class BookingServiceImpl implements BookingService {
         UserEntity user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow();
 
-        //will always have a valid sportClass id, as it passed from the bookSportClass GET endpoint
         SportClassEntity sportClass = sportClassRepository.findById(sportClassId).get();
 
         BookingEntity booking = BookingEntity.builder()
