@@ -2,15 +2,18 @@ package com.sportscenter.service;
 
 import com.sportscenter.exception.UserNotFoundException;
 import com.sportscenter.model.entity.BookingEntity;
+import com.sportscenter.model.entity.PasswordResetToken;
 import com.sportscenter.model.entity.UserEntity;
 import com.sportscenter.model.entity.UserRoleEntity;
 import com.sportscenter.model.enums.UserRoleEnum;
 import com.sportscenter.model.mapper.UserMapper;
+import com.sportscenter.model.service.PasswordChangeServiceModel;
 import com.sportscenter.model.service.UserEditServiceModel;
 import com.sportscenter.model.service.UserPictureServiceModel;
 import com.sportscenter.model.service.UserRegistrationServiceModel;
 import com.sportscenter.model.view.UserProfileViewModel;
 import com.sportscenter.model.view.UserViewModel;
+import com.sportscenter.repository.PasswordResetTokenRepository;
 import com.sportscenter.repository.UserRepository;
 import com.sportscenter.repository.UserRoleRepository;
 import com.sportscenter.service.impl.EmailService;
@@ -22,9 +25,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,6 +57,12 @@ public class UserServiceImplTest {
     private CloudinaryService cloudinaryServiceMock;
     @Mock
     private EmailService emailServiceMock;
+    @Mock
+    private PasswordResetTokenRepository pwResetTokenRepositoryMock;
+    @Mock
+    private UserDetailsService userDetailsServiceMock;
+    @Mock
+    private UserDetails userDetailsMock;
 
     @InjectMocks
     private UserServiceImpl userServiceTest;
@@ -231,6 +246,23 @@ public class UserServiceImplTest {
         assertFalse(userServiceTest.userExists("user"));
     }
 
+    //userWithEmailExists
+    @Test
+    public void testUserWithEmailExists_returnsTrueIfExists(){
+        when(userRepositoryMock.findByEmail("user@email.com"))
+                .thenReturn(Optional.of(testUserEntity));
+
+        assertTrue(userServiceTest.userWithEmailExists("user@email.com"));
+    }
+
+    @Test
+    public void testUserWithEmailExists_returnsFalseIfNotExists(){
+        when(userRepositoryMock.findByEmail("test@email.com"))
+                .thenReturn(Optional.empty());
+
+        assertFalse(userServiceTest.userWithEmailExists("test@email.com"));
+    }
+
 
     //getAllUsers
     @Test
@@ -272,6 +304,22 @@ public class UserServiceImplTest {
                 () -> userServiceTest.getUserById(USER_ID_FAKE));
     }
 
+    //getUserByEmail
+    @Test
+    public void testGetUserByEmail(){
+        when(userRepositoryMock.findByEmail("test@email.com"))
+                .thenReturn(Optional.of(testUserEntity));
+
+        UserEntity result = userServiceTest.getUserByEmail("test@email.com");
+
+        assertEquals(result, testUserEntity);
+    }
+
+    @Test
+    public void testGetUserByEmail_throwsWhenNotFound(){
+        assertThrows(UserNotFoundException.class,
+                () -> userServiceTest.getUserByEmail("fake@email.com"));
+    }
 
     //updateUserRoles
     @Test
@@ -473,4 +521,83 @@ public class UserServiceImplTest {
         assertFalse(result);
     }
 
+    //changeUserPassword
+    @Test
+    public void testChangeUserPassword_successfully(){
+        PasswordChangeServiceModel pwdChangeServiceModelTest = new PasswordChangeServiceModel("testToken", "newPassword");
+        PasswordResetToken pwdTest = new PasswordResetToken("testToken", testUserEntity, LocalDateTime.now().plusMinutes(1L));
+
+        when(pwResetTokenRepositoryMock.findByToken("testToken"))
+                .thenReturn(Optional.of(pwdTest));
+
+        when(passwordEncoderMock.encode(pwdChangeServiceModelTest.getNewPassword()))
+                .thenReturn("newPasswordEncoded");
+
+        userServiceTest.changeUserPassword(pwdChangeServiceModelTest);
+
+        assertEquals("newPasswordEncoded", testUserEntity.getPassword());
+        verify(userRepositoryMock, times(1)).save(testUserEntity);
+
+    }
+
+    //createUserIfNotExist
+    @Test
+    public void testCreateUserIfNotExist(){
+        String email = "new@example.com";
+
+        when(userRepositoryMock.findByEmail(email))
+                .thenReturn(Optional.empty());
+        when(userMapperMock.userRegistrationServiceToUserEntity(any(UserRegistrationServiceModel.class)))
+                .thenReturn(new UserEntity());
+        when(userRoleRepositoryMock.findByRole(any(UserRoleEnum.class)))
+                .thenReturn(new UserRoleEntity());
+        when(passwordEncoderMock.encode(anyString()))
+                .thenReturn("encodedPassword");
+
+        userServiceTest.createUserIfNotExist(email);
+
+        verify(userRepositoryMock, times(1))
+                .findByEmail(email);
+        verify(userRepositoryMock, times(1))
+                .save(any(UserEntity.class));
+    }
+
+    @Test
+    public void testCreateUserIfNotExist_userExists(){
+        String existingEmail = testUserEntity.getEmail();
+
+        when(userRepositoryMock.findByEmail(existingEmail))
+                .thenReturn(Optional.of(testUserEntity));
+
+        userServiceTest.createUserIfNotExist(testUserEntity.getEmail());
+
+        verify(userRepositoryMock, times(1))
+                .findByEmail(existingEmail);
+
+        verify(userRepositoryMock, never())
+                .save(any(UserEntity.class));
+
+    }
+
+    //login
+    @Test
+    public void testLogin_shouldAuthenticateUser(){
+        String username = testUserEntity.getUsername();
+        String password = testAdminEntity.getPassword();
+
+        when(userDetailsServiceMock.loadUserByUsername(username))
+                .thenReturn(userDetailsMock);
+        when(userDetailsMock.getPassword()).thenReturn(password);
+        when(userDetailsMock.getAuthorities()).thenReturn(new ArrayList<>());
+
+        userServiceTest.login(username);
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        assertNotNull(authentication);
+        assertTrue(authentication instanceof UsernamePasswordAuthenticationToken);
+        assertEquals(userDetailsMock, authentication.getPrincipal());
+        assertEquals(password, authentication.getCredentials());
+
+    }
 }
