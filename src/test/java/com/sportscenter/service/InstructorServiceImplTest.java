@@ -15,6 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -144,6 +148,38 @@ public class InstructorServiceImplTest {
         assertEquals(instructor2View.getPictureUrl(), actual.get(1).getPictureUrl());
         assertEquals(instructor2View.getSportClasses().size(), actual.get(1).getSportClasses().size());
         assertEquals(instructor2View.getSportName(), actual.get(1).getSportName());
+    }
+
+    //TODO:
+    @Test
+    public void testGetAllInstructorsPaged_returnsPagedInstructors(){
+        //Arrange
+        Pageable pageableMock = PageRequest.of(0,2);
+
+        List<InstructorEntity> instructorsListPaged = List.of(instructor1, instructor2);
+        Page<InstructorEntity> mockPage = new PageImpl<>(instructorsListPaged, pageableMock, instructorsListPaged.size());
+
+        when(instructorRepositoryMock.findAll(pageableMock))
+                .thenReturn(mockPage);
+
+        when(instructorMapperMock.mapInstructorEntityToViewModel(any(InstructorEntity.class)))
+                .thenReturn(instructor1View, instructor2View);
+
+        //Act
+        Page<InstructorViewModel> actual =
+                instructorServiceTest.getAllInstructorsPaged(pageableMock);
+
+        //Assert
+        assertEquals(2, actual.getTotalElements());
+        assertEquals(instructor1View, actual.getContent().get(0));
+        assertEquals(instructor2View, actual.getContent().get(1));
+
+        verify(instructorRepositoryMock, times(1))
+                .findAll(pageableMock);
+
+        verify(instructorMapperMock, times(2))
+                .mapInstructorEntityToViewModel(any(InstructorEntity.class));
+
     }
 
     @Test
