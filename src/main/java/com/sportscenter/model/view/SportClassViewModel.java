@@ -2,6 +2,8 @@ package com.sportscenter.model.view;
 
 import com.sportscenter.model.entity.SportEntity;
 import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.DayOfWeek;
@@ -11,6 +13,7 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 @Data
+@Builder
 public class SportClassViewModel {
 
     private Long id;
