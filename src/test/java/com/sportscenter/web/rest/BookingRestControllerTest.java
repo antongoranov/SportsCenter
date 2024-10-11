@@ -3,6 +3,7 @@ package com.sportscenter.web.rest;
 import com.sportscenter.init.TestDataInit;
 import com.sportscenter.model.entity.BookingEntity;
 import com.sportscenter.model.entity.UserEntity;
+import com.sportscenter.repository.BookingRepository;
 import com.sportscenter.service.BookingService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,8 +36,7 @@ public class BookingRestControllerTest {
     private TestDataInit testData;
 
     @Autowired
-    private BookingService bookingService;
-
+    private BookingRepository bookingRepository;
 
     private UserEntity testUser;
 
@@ -53,16 +53,18 @@ public class BookingRestControllerTest {
     @Test
     @WithMockUser(username = "user", roles = {"USER"})
     public void testUserBookings_returnsCorrectData() throws Exception {
-
         testData.initBooking();
+        Long bookingId = bookingRepository.findAll().get(0).getId();
+        Long sportClassId = bookingRepository.findAll().get(0).getSportClass().getId();
+        Long sportId = bookingRepository.findAll().get(0).getSportClass().getSport().getId();
 
         mockMvc.perform(get("/api/myBookings"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].id", is(1)))
+                .andExpect(jsonPath("$.[0].id", is(bookingId.intValue())))
                     .andExpect(jsonPath("$.[0].sportClass").isNotEmpty())
-                    .andExpect(jsonPath("$.[0].sportClass.id", is(1)))
-                    .andExpect(jsonPath("$.[0].sportClass.sportId", is(1)))
+                    .andExpect(jsonPath("$.[0].sportClass.id", is(sportClassId.intValue())))
+                    .andExpect(jsonPath("$.[0].sportClass.sportId", is(sportId.intValue())))
                     .andExpect(jsonPath("$.[0].sportClass.sportImageUrl", is("sport.com/image.jpg")))
                     .andExpect(jsonPath("$.[0].sportClass.sportDescription", is("test sport dec")))
                     .andExpect(jsonPath("$.[0].sportClass.instructorName", is("Ivan Stoqnov")))

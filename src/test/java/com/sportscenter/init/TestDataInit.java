@@ -24,6 +24,7 @@ public class TestDataInit {
     private final SportClassRepository sportClassRepository;
     private final InstructorRepository instructorRepository;
     private final SportRepository sportRepository;
+    private final QrCodeRepository qrCodeRepository;
 
 
     public void initRoles() {
@@ -88,6 +89,16 @@ public class TestDataInit {
         return bookingRepository.save(booking);
     }
 
+    public QrCodeEntity initQrCode(){
+        BookingEntity bookingEntity = initBooking();
+        QrCodeEntity qrCodeEntity = QrCodeEntity.builder()
+                .booking(bookingEntity)
+                .qrImg(new byte[]{})
+              .build();
+
+        return qrCodeRepository.save(qrCodeEntity);
+    }
+
     public SportClassEntity initSportClass(){
 
         InstructorEntity testInstructor = initInstructor();
@@ -143,6 +154,7 @@ public class TestDataInit {
         instructorRepository.deleteAll();
         sportClassRepository.deleteAll();
         bookingRepository.deleteAll();
+        qrCodeRepository.deleteAll();
 
     }
 
