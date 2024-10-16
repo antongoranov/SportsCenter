@@ -67,7 +67,7 @@ Having two interceptors:</br>
 **Has a REST Controller that is called upon by the JavaScript fetch API to asynchronously load the user's bookings to their profile.**</br>
 
 ## Testing
-Achieved 60% code coverage, having both Integration and Unit tests. </br>
+Achieved **100%** code coverage, having both **Integration** and **Unit** tests. </br>
 
 ## Setting Up the Environment
 Follow these steps to set up environment variables in the application.yml file for local development:</br>
